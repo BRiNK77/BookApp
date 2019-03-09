@@ -52,12 +52,13 @@ public class AppController implements Initializable {
 		String viewString = ""; // used to store fxml file names
 		MyController controller = null; // need a blank controller to populate
 		
-		List<BookModel> list = BookGateway.getBooks();  // list to pass to BookListController
+		
 		
 		
 		// switch to determine which view to set, also sets controller
 		switch(viewType) {
 			case VIEW1:
+				List<BookModel> list = BookGateway.getBooks();
 				viewString = "/View/BookListView.fxml";
 				controller = new BookListController(list);
 				break;
@@ -93,7 +94,8 @@ public class AppController implements Initializable {
 			Platform.exit();
 			
 		} else if(event.getSource() == mList) {
-			switchView(ViewType.VIEW1, "NA");
+			switchView(ViewType.VIEW1, null);
+			return;
 		}
 	}
 	

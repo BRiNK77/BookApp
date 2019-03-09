@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import model.BookModel;
 
@@ -18,16 +19,13 @@ public class DetailedController implements Initializable, MyController {
 	private static Logger logger = LogManager.getLogger(DetailedController.class);
 	
 	// for part 5
-	@FXML private TextField bookTitle;
-	@FXML private TextField bookSum;
-	@FXML private TextField published;
-	@FXML private TextField ISBN;
+	@FXML private TextField bookTitle, published, ISBN;
+	@FXML private TextArea bookSum;
 	
 	private BookModel aBook;
 	private BookModel bookCopy;
 	
-	@FXML
-	private Button saveB;
+	@FXML private Button saveB;
 	// Trying to implement step 5 here
 	
 	public DetailedController(BookModel book) {
@@ -36,8 +34,7 @@ public class DetailedController implements Initializable, MyController {
 		
 	}
 	
-	@FXML
-	void saveButtonPressed(ActionEvent event) {
+	@FXML void saveButtonPressed(ActionEvent event) {
 		if(event.getSource() == saveB) {
 			logger.info("Save button pressed.");
 		}
@@ -45,6 +42,9 @@ public class DetailedController implements Initializable, MyController {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		bookTitle.textProperty().bindBidirectional(bookCopy.bookTitleProp());
+		bookTitle.setText(this.bookCopy.getTitle());
+		bookSum.setText(this.bookCopy.getSummary());
+		published.setText("" + this.bookCopy.getYearPublished());
+		ISBN.setText(this.bookCopy.getISBN());
 	}
 }

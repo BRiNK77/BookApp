@@ -4,41 +4,42 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class BookModel {
-	/*
+	
 	private int ID;
 	private String Title;
 	private String Summary;
 	private int yearPublished;
 	private int publisherID;
 	private String ISBN;
-	*/
+	
+	/*
 	private int ID;
 	private SimpleStringProperty Title;
 	private SimpleStringProperty Summary;
 	private SimpleIntegerProperty yearPublished;
 	private SimpleIntegerProperty publisherID;
 	private SimpleStringProperty ISBN;
-	
+	*/
 	
 	public BookModel(int id, String title, String summary, int yearPublished, int publisherid, String isbn) {  //int id, String title, String summary, int yearPublished, String isbn
 		this();
-		/*
+		
 		this.ID = id;
 		this.Title = title;
 		this.Summary = summary;
 		this.yearPublished = yearPublished;
 		this.publisherID = publisherid;
 		this.ISBN = isbn;
-		*/
 		
 		
+		/*
 		this.ID = id;
 		this.Title.set(title);
 		this.Summary.set(summary);
 		this.yearPublished.set(yearPublished);
 		this.publisherID.set(publisherid);
 		this.ISBN.set(isbn);
-		
+		*/
 	}
 	
 	public BookModel() {
@@ -99,47 +100,47 @@ public class BookModel {
 	}
 
 	public String getTitle() {
-		return Title.get();
+		return Title;
 	}
 
 	public void setTitle(String title) {
-		this.Title.set(title);
+		this.Title = title;
 	}
 
 	public String getSummary() {
-		return Summary.get();
+		return Summary;
 	}
 
 	public void setSummary(String summary) {
-		this.Summary.set(summary);
+		this.Summary = summary;
 	}
 
 	public int getYearPublished() {
-		return yearPublished.get();
+		return yearPublished;
 	}
 
 	public void setYearPublished(int yearPublished) {
-		this.yearPublished.set(yearPublished);
+		this.yearPublished = yearPublished;
 	}
 	public int getPublisherID() {
-		return publisherID.get();
+		return publisherID;
 	}
 
 	public void setPublisherID(int publisherID) {
-		this.publisherID.set(publisherID);
+		this.publisherID = publisherID;
 	}
 	public String getISBN() {
-		return ISBN.get();
+		return ISBN;
 	}
 
 	public void setISBN(String iSBN) {
-		this.ISBN.set(iSBN);
+		this.ISBN = iSBN;
 	}
-	
+	/*
 	public SimpleStringProperty bookTitleProp() {
 		return Title;
 	}
-	/*
+	
 	public SimpleStringProperty bookSumProp() {
 		return Summary;
 	}
