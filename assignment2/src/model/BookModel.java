@@ -1,5 +1,8 @@
 package model;
 
+import javax.xml.bind.ValidationException;
+
+import controller.BookGateway;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -12,15 +15,8 @@ public class BookModel {
 	private int publisherID;
 	private String ISBN;
 	
-	/*
-	private int ID;
-	private SimpleStringProperty Title;
-	private SimpleStringProperty Summary;
-	private SimpleIntegerProperty yearPublished;
-	private SimpleIntegerProperty publisherID;
-	private SimpleStringProperty ISBN;
-	*/
-	
+	private BookGateway gateway;
+
 	public BookModel(int id, String title, String summary, int yearPublished, int publisherid, String isbn) {  //int id, String title, String summary, int yearPublished, String isbn
 		this();
 		
@@ -31,15 +27,6 @@ public class BookModel {
 		this.publisherID = publisherid;
 		this.ISBN = isbn;
 		
-		
-		/*
-		this.ID = id;
-		this.Title.set(title);
-		this.Summary.set(summary);
-		this.yearPublished.set(yearPublished);
-		this.publisherID.set(publisherid);
-		this.ISBN.set(isbn);
-		*/
 	}
 	
 	public BookModel() {
@@ -84,12 +71,24 @@ public class BookModel {
 	}
 
 	// part 2 of step 6
-	public void saveBook() {
-		// TODO: call checks on all data in view, throw exception via JAVAFX Alert
-		
+	public void saveBook() throws ValidationException {
+		// TODO: call checks on all data in view, throw exceptions here and in gui
+		if(!titleCheck(getTitle())) {
+			throw new ValidationException("Invalid Title: " + getTitle());
+		}
+		if(!summaryCheck(getSummary())) {
+			throw new ValidationException("Invalid Summary: " + getSummary());
+		}
+		if(!yearPubCheck(getYearPublished())) {
+			throw new ValidationException("Invalid Year: " + getYearPublished());
+		}
+		if(!isbnCheck(getISBN())) {
+			throw new ValidationException("Invalid ISBN: " + getISBN());
+		}
 		//TODO: save any changes made to book copy onto original book passed in
 		
 		//TODO: updateBook method from BookGateway to update that book in database
+		gateway.updateBook(this);
 	}
 	public int getID() {
 		return ID;
