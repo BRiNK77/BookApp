@@ -103,7 +103,7 @@ public class BookModel {
 			gateway.insertBook(this);
 			
 		} else {
-			gateway.updateBook(this.getTitle(), this.getSummary(), this.getYearPublished(), this.getISBN(), this.getID());
+			gateway.updateBook(this);
 		
 		}
 	}

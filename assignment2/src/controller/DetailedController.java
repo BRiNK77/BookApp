@@ -53,14 +53,15 @@ public class DetailedController implements Initializable, MyController {
 	
 		try {
 			checkUpdate();
-			System.out.println(aBook);
-			System.out.println(bookCopy);
+			// System.out.println(aBook);
+			// System.out.println(bookCopy);
 			
 			aBook.setTitle(this.bookCopy.getTitle());
 			aBook.setSummary(this.bookCopy.getSummary());
 			aBook.setYearPublished(this.bookCopy.getYearPublished());
 			aBook.setISBN(this.bookCopy.getISBN());
 			
+			// System.out.println(aBook);
 			aBook.saveBook();
 			
 			Alert alert = new Alert(AlertType.INFORMATION);

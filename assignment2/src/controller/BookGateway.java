@@ -123,21 +123,17 @@ public class BookGateway {
 	}
 	
 	// part 3 of step 6
-	public void updateBook(String bookTitle, String bookSum, int bookYP, String ISBN, int ID) throws GatewayException {
+	public void updateBook(BookModel aBook) throws GatewayException {
 		// TODO: use model's id as a parameter for WHERE clause to SQL to update method
 		PreparedStatement st = null;
 		try {
-			conn.setAutoCommit(false);
-			
 			st = conn.prepareStatement("update Books set title = ?, summary = ?, year_published = ?, isbn = ? where id = ?");
-			st.setString(1, bookTitle);
-			st.setString(2, bookSum);
-			st.setInt(3, bookYP);
-			st.setString(4, ISBN);
-			st.setInt(5, ID);
+			st.setString(1, aBook.getTitle());
+			st.setString(2, aBook.getSummary());
+			st.setInt(3, aBook.getYearPublished());
+			st.setString(4, aBook.getISBN());
+			st.setInt(5, aBook.getID());
 			st.executeUpdate();
-			
-			conn.commit();
 			
 		} catch(SQLException e) {
 			try {

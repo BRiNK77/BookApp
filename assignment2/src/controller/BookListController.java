@@ -59,7 +59,7 @@ public class BookListController implements Initializable, MyController {
 				if(event.getClickCount() == 2 ) {
 					
 					BookModel selected = listviewBooks.getSelectionModel().getSelectedItem();
-					logger.info("Book title pressed." + selected);
+					logger.info("Book title pressed. " + selected);
 					AppController.getInstance().switchView(ViewType.VIEW2, selected); 
 					
 				}
