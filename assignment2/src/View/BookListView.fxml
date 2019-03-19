@@ -13,6 +13,6 @@
          </font>
       </Label>
       <ListView fx:id="listviewBooks" layoutX="20.0" layoutY="57.0" prefHeight="323.0" prefWidth="502.0" />
-      <Button fx:id="deleteB" layoutX="532.0" layoutY="188.0" mnemonicParsing="false" text="Delete" />
+      <Button fx:id="deleteB" layoutX="532.0" layoutY="188.0" mnemonicParsing="false" onAction="#deleteButtonPressed" text="Delete" />
    </children>
 </AnchorPane>
