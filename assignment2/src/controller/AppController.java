@@ -42,11 +42,9 @@ public class AppController implements Initializable {
 	
 	private BorderPane borderPane;
 	
-	@FXML
-	private MenuItem mClose;
-	
-	@FXML 
-	private MenuItem mList;
+	@FXML private MenuItem mClose;
+	@FXML private MenuItem mList;
+	@FXML private MenuItem mAdd;
 	
 	public void switchView(ViewType viewType, Object data) {
 		String viewString = ""; // used to store fxml file names
@@ -57,6 +55,7 @@ public class AppController implements Initializable {
 		
 		// switch to determine which view to set, also sets controller
 		switch(viewType) {
+		
 			case VIEW1:
 				List<BookModel> list = BookGateway.getBooks();
 				viewString = "/View/BookListView.fxml";
@@ -66,6 +65,12 @@ public class AppController implements Initializable {
 			case VIEW2:
 				viewString = "/View/DetailedView.fxml";
 				controller = new DetailedController((BookModel) data);
+				break;
+				
+			case VIEW3:
+				BookModel book = new BookModel();
+				viewString = "/View/DetailedView.fxml";
+				controller = new DetailedController(book);
 				break;
 		}
 		
@@ -95,6 +100,10 @@ public class AppController implements Initializable {
 			
 		} else if(event.getSource() == mList) {
 			switchView(ViewType.VIEW1, null);
+			return;
+			
+		} else if(event.getSource() == mAdd) {
+			switchView(ViewType.VIEW3, null);
 			return;
 		}
 	}

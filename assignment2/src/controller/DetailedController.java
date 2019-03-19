@@ -3,9 +3,11 @@ package controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javax.xml.bind.ValidationException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -36,38 +38,58 @@ public class DetailedController implements Initializable, MyController {
 		
 	}
 	
+	public DetailedController() {
+		
+	}
+	
 	@FXML void saveButtonPressed(ActionEvent event) {
 		if(event.getSource() == saveB) {
 			logger.info("Save button pressed.");
-			try {
-				save();
-			} catch (ValidationException | GatewayException e) {
-				e.printStackTrace();
-			}
+			save();
 		}
 	}
 	
-	public boolean save() throws ValidationException, GatewayException {
-		aBook.setTitle(bookCopy.getTitle());
-		aBook.setSummary(bookCopy.getSummary());
-		aBook.setYearPublished(bookCopy.getYearPublished());
-		aBook.setISBN(bookCopy.getISBN());
-		
+	public boolean save() {
+	
 		try {
+			checkUpdate();
+			System.out.println(aBook);
+			System.out.println(bookCopy);
+			
+			aBook.setTitle(this.bookCopy.getTitle());
+			aBook.setSummary(this.bookCopy.getSummary());
+			aBook.setYearPublished(this.bookCopy.getYearPublished());
+			aBook.setISBN(this.bookCopy.getISBN());
+			
 			aBook.saveBook();
-		} catch (javax.xml.bind.ValidationException e) {
+			
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Changes saved");
+			alert.setHeaderText(null);
+			alert.setContentText("Changes saved successfully!");
+			
+			alert.showAndWait();
+			
+		} catch(GatewayException | ValidationException e) {
 			logger.error("Could not save: " + e.getMessage());
-			e.printStackTrace();
 			return false;
 		}
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Changes saved");
-		alert.setHeaderText(null);
-		alert.setContentText("Changes saved successfully!");
-		
-		alert.showAndWait();
-		
 		return true;
+		
+	}
+	
+	public void checkUpdate() {
+		this.bookCopy.setTitle(bookTitle.getText());
+		this.bookCopy.setSummary(bookSum.getText());
+		this.bookCopy.setYearPublished(Integer.parseInt(published.getText()));
+		this.bookCopy.setISBN(ISBN.getText());
+		
+		if(this.aBook.getTitle() == this.bookCopy.getTitle() && this.aBook.getSummary() == this.bookCopy.getSummary() && this.aBook.getYearPublished() == this.bookCopy.getYearPublished() && this.aBook.getISBN() == this.bookCopy.getISBN()) {
+			logger.info("No changes made.");
+		} else {
+			logger.info("Changes made.");
+		}
+		
 	}
 	
 	@Override

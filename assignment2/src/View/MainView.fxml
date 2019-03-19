@@ -15,7 +15,8 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Books">
             <items>
-              <MenuItem id="mList" fx:id="mList" mnemonicParsing="false" onAction="#onMenuClick" text="List" />
+              <MenuItem id="mList" fx:id="mList" mnemonicParsing="false" onAction="#onMenuClick" text="Book List" />
+                  <MenuItem id="mList" fx:id="mAdd" mnemonicParsing="false" onAction="#onMenuClick" text="Add Book" />
             </items>
           </Menu>
         </menus>

@@ -3,8 +3,8 @@ package model;
 import javax.xml.bind.ValidationException;
 
 import controller.BookGateway;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+import controller.GatewayException;
+
 
 public class BookModel {
 	
@@ -30,7 +30,10 @@ public class BookModel {
 	}
 	
 	public BookModel() {
-		
+		ID = 0;
+		Title = "Title Here...";
+		Summary = "Summary Here...";
+		ISBN = "ISBN Here...";
 	}
 	
 	public String toString() {
@@ -40,6 +43,9 @@ public class BookModel {
 	// step 6 business rules checks 
 	public boolean titleCheck(String title) {
 		boolean check = false;
+		if(title == "Title Here...") {
+			return check;
+		}
 		if(title.length() != 0 && title.length() <= 255) {
 			check = true;
 		}
@@ -48,6 +54,9 @@ public class BookModel {
 	
 	public boolean summaryCheck(String summary) {
 		boolean check = false;
+		if(summary == "Summary Here...") {
+			return check;
+		}
 		if(summary.length() <= 65536) {
 			check = true;
 		}
@@ -64,6 +73,9 @@ public class BookModel {
 	
 	public boolean isbnCheck(String isbn) {
 		boolean check = false;
+		if(isbn == "ISBN Here...") {
+			return check;
+		}
 		if(isbn.length() <= 13) {
 			check = true;
 		}
@@ -71,8 +83,7 @@ public class BookModel {
 	}
 
 	// part 2 of step 6
-	public void saveBook() throws ValidationException {
-		// TODO: call checks on all data in view, throw exceptions here and in gui
+	public void saveBook() throws ValidationException, GatewayException {
 		if(!titleCheck(getTitle())) {
 			throw new ValidationException("Invalid Title: " + getTitle());
 		}
@@ -85,11 +96,18 @@ public class BookModel {
 		if(!isbnCheck(getISBN())) {
 			throw new ValidationException("Invalid ISBN: " + getISBN());
 		}
-		//TODO: save any changes made to book copy onto original book passed in
 		
-		//TODO: updateBook method from BookGateway to update that book in database
-		gateway.updateBook(this);
+		//System.out.println(this);
+		
+		if(this.getID() == 0) {
+			gateway.insertBook(this);
+			
+		} else {
+			gateway.updateBook(this.getTitle(), this.getSummary(), this.getYearPublished(), this.getISBN(), this.getID());
+		
+		}
 	}
+	
 	public int getID() {
 		return ID;
 	}
