@@ -1,11 +1,16 @@
 package controller;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
+
 import model.BookModel;
 import controller.GatewayException;
 
@@ -59,12 +64,12 @@ public class BookGateway {
 		return books;
 	} // end getBooks
 	
-	public void insertBook(BookModel book) {
+	public static void insertBook(BookModel book) {
 		PreparedStatement st = null;
 		try {
 			conn.setAutoCommit(false);
 			
-			st = conn.prepareStatement("insert into Books title, summary, year_published, isbn values ?, ?, ?, ?");
+			st = conn.prepareStatement("insert into Books (title, summary, year_published, isbn) values ( ?, ?, ?, ?)");
 			st.setString(1, book.getTitle());
 			st.setString(2, book.getSummary());
 			st.setInt(3, book.getYearPublished());
@@ -74,6 +79,12 @@ public class BookGateway {
 			conn.commit();
 			
 		} catch (SQLException e) { 
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 			// throw new AppException(e);
 			
@@ -89,7 +100,7 @@ public class BookGateway {
 		}
 	}
 	
-	public void deleteBook(BookModel book) throws GatewayException{
+	public static void deleteBook(BookModel book) throws GatewayException{
 		PreparedStatement st = null;
 		try {
 			conn.setAutoCommit(false);
@@ -123,17 +134,30 @@ public class BookGateway {
 	}
 	
 	// part 3 of step 6
-	public void updateBook(BookModel aBook) throws GatewayException {
+	public static void updateBook(BookModel aBook) throws GatewayException {
+		// System.out.println(aBook + "test 1");
 		// TODO: use model's id as a parameter for WHERE clause to SQL to update method
 		PreparedStatement st = null;
 		try {
-			st = conn.prepareStatement("update Books set title = ?, summary = ?, year_published = ?, isbn = ? where id = ?");
+			conn.setAutoCommit(false);
+			
+			st = conn.prepareStatement("update Books "
+					+ "set title = ?"
+					+ ", summary = ?"
+					+ ", year_published = ?"
+					+ ", isbn = ?"
+					+ " where id = ?");
+		//	System.out.println("test 2");
 			st.setString(1, aBook.getTitle());
 			st.setString(2, aBook.getSummary());
+		//	System.out.println("test 3");
 			st.setInt(3, aBook.getYearPublished());
 			st.setString(4, aBook.getISBN());
+		//	System.out.println("test 4");
 			st.setInt(5, aBook.getID());
 			st.executeUpdate();
+			
+			conn.commit();
 			
 		} catch(SQLException e) {
 			try {
@@ -147,9 +171,10 @@ public class BookGateway {
 			
 		} finally {
 			try {
-				if(st != null)
-					st.close();
+				//if(st != null)
+				//	st.close();
 				conn.setAutoCommit(true);
+				
 			} catch (SQLException e) {
 				
 				throw new GatewayException("SQL Error: " + e.getMessage());

@@ -22,15 +22,14 @@ public class DetailedController implements Initializable, MyController {
 	
 	private static Logger logger = LogManager.getLogger(DetailedController.class);
 	
-	// for part 5
 	@FXML private TextField bookTitle, published, ISBN;
 	@FXML private TextArea bookSum;
 	
 	private BookModel aBook;
 	private BookModel bookCopy;
+	private BookGateway gateway;
 	
 	@FXML private Button saveB;
-	// Trying to implement step 5 here
 	
 	public DetailedController(BookModel book) {
 		this.aBook = book;
@@ -80,16 +79,22 @@ public class DetailedController implements Initializable, MyController {
 	}
 	
 	public void checkUpdate() {
+		// System.out.println(bookCopy.getYearPublished());
+		// System.out.println(published.getText());
+		// System.out.println(aBook.getYearPublished());
+		if(bookTitle.getText() == this.bookCopy.getTitle() && bookSum.getText() == this.bookCopy.getSummary() && Integer.parseInt(published.getText()) == this.bookCopy.getYearPublished() && ISBN.getText() == this.bookCopy.getISBN()) {
+			logger.info("No changes made.");
+		} else {
+			logger.info("Changes made.");
+		}
+		
 		this.bookCopy.setTitle(bookTitle.getText());
 		this.bookCopy.setSummary(bookSum.getText());
 		this.bookCopy.setYearPublished(Integer.parseInt(published.getText()));
 		this.bookCopy.setISBN(ISBN.getText());
 		
-		if(this.aBook.getTitle() == this.bookCopy.getTitle() && this.aBook.getSummary() == this.bookCopy.getSummary() && this.aBook.getYearPublished() == this.bookCopy.getYearPublished() && this.aBook.getISBN() == this.bookCopy.getISBN()) {
-			logger.info("No changes made.");
-		} else {
-			logger.info("Changes made.");
-		}
+		// System.out.println("After" + aBook.getYearPublished() + bookCopy.getYearPublished());
+		
 		
 	}
 	

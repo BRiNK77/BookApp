@@ -14,8 +14,6 @@ public class BookModel {
 	private int yearPublished;
 	private int publisherID;
 	private String ISBN;
-	
-	private BookGateway gateway;
 
 	public BookModel(int id, String title, String summary, int yearPublished, int publisherid, String isbn) {  //int id, String title, String summary, int yearPublished, String isbn
 		this();
@@ -100,10 +98,10 @@ public class BookModel {
 		//System.out.println(this);
 		
 		if(this.getID() == 0) {
-			gateway.insertBook(this);
+			BookGateway.insertBook(this);
 			
 		} else {
-			gateway.updateBook(this);
+			BookGateway.updateBook((BookModel) this);
 		
 		}
 	}

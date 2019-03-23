@@ -25,7 +25,6 @@ public class BookListController implements Initializable, MyController {
 	@FXML private Button deleteB;
 	
 	private List<BookModel> listData;
-	private BookGateway gateway;
 
 	public BookListController(List<BookModel> books) {
 		this.listData = books;
@@ -35,8 +34,9 @@ public class BookListController implements Initializable, MyController {
 		if(event.getSource() == deleteB) {
 			logger.info("Delete button pressed.");
 			BookModel selected = listviewBooks.getSelectionModel().getSelectedItem();
+			// System.out.println(selected.getID());
 			try {
-				gateway.deleteBook(selected);
+				BookGateway.deleteBook(selected);
 			} catch (GatewayException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
