@@ -189,3 +189,22 @@
 12:37:32.695 INFO  controller.DetailedController : Changes made.
 12:37:32.696 ERROR controller.DetailedController : Could not save: Invalid Year: 0
 12:56:06.914 INFO  controller.Main : Closing connection to DB...
+13:11:59.873 INFO  controller.Main : Creating Connection with DB...
+13:12:23.733 INFO  controller.DetailedController : Save button pressed.
+13:12:23.771 INFO  controller.DetailedController : Changes made.
+13:12:26.272 INFO  controller.DetailedController : Changes fully saved.
+13:12:37.973 INFO  controller.BookListController : Delete button pressed.
+13:13:36.488 INFO  controller.Main : Closing connection to DB...
+13:44:50.300 INFO  controller.Main : Creating Connection with DB...
+13:45:10.741 INFO  controller.DetailedController : Save button pressed.
+13:45:10.758 INFO  controller.DetailedController : Changes made.
+13:45:12.394 INFO  controller.DetailedController : Changes fully saved.
+13:45:16.194 INFO  controller.BookListController : Delete button pressed.
+13:45:25.505 INFO  controller.BookListController$1 : Book title pressed. 4 : Title Here     Year: 1900   ISBN: ISBN Here
+13:45:29.155 INFO  controller.BookListController$1 : Book title pressed. null
+13:45:29.160 ERROR controller.AppController : Empty view or controller.
+13:45:31.061 INFO  controller.BookListController$1 : Book title pressed. null
+13:45:31.066 ERROR controller.AppController : Empty view or controller.
+13:45:32.401 INFO  controller.BookListController$1 : Book title pressed. null
+13:45:32.406 ERROR controller.AppController : Empty view or controller.
+13:47:01.019 INFO  controller.Main : Closing connection to DB...
