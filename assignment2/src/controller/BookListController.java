@@ -41,21 +41,16 @@ public class BookListController implements Initializable, MyController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			refreshListView();
+			AppController.getInstance().switchView( ViewType.VIEW1, null);
+			
+	
 		}
 	}
 	
-	public void refreshListView() {
-		MyListViewSkin<BookModel> listViewSkin = (MyListViewSkin<BookModel>) listviewBooks.getSkin();
-		listViewSkin.refresh();
-	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// listviewBooks.setItems((ObservableList<BookModel>) listData);
-		MyListViewSkin<BookModel> skin = new MyListViewSkin<>(listviewBooks);
-		listviewBooks.setSkin(skin);
-		
+	
 		ObservableList<BookModel> books = listviewBooks.getItems();
 		for(BookModel book: listData) {
 			books.add(book);

@@ -44,12 +44,10 @@ public class AppController implements Initializable {
 	@FXML private MenuItem mList;
 	@FXML private MenuItem mAdd;
 	
+	// method to handle view switching on single screen
 	public void switchView(ViewType viewType, Object data) {
 		String viewString = ""; // used to store fxml file names
 		MyController controller = null; // need a blank controller to populate
-		
-		
-		
 		
 		// switch to determine which view to set, also sets controller
 		switch(viewType) {
@@ -81,7 +79,6 @@ public class AppController implements Initializable {
 			
 			
 			borderPane.setCenter(viewNode);
-			// throwing exceptions even though everything is going through
 		} catch (IOException e) {
 			e.printStackTrace();
 			logger.error("Empty view or controller.");
