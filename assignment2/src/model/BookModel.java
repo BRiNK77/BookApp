@@ -31,6 +31,7 @@ public class BookModel {
 		ID = 0;
 		Title = "Title Here...";
 		Summary = "Summary Here...";
+		publisherID = 0;
 		ISBN = "ISBN Here...";
 	}
 	
@@ -38,7 +39,6 @@ public class BookModel {
 		return this.ID + " : " + this.Title + "     Year: " + this.yearPublished + "   ISBN: " + this.ISBN;
 	}
 	
-	// step 6 business rules checks 
 	public boolean titleCheck(String title) {
 		boolean check = false;
 		if(title == "Title Here...") {
@@ -101,7 +101,7 @@ public class BookModel {
 			BookGateway.insertBook(this);
 			
 		} else {
-			BookGateway.updateBook((BookModel) this);
+			BookGateway.updateBook(this);
 		
 		}
 	}
@@ -137,6 +137,7 @@ public class BookModel {
 	public void setYearPublished(int yearPublished) {
 		this.yearPublished = yearPublished;
 	}
+	
 	public int getPublisherID() {
 		return publisherID;
 	}
@@ -144,6 +145,7 @@ public class BookModel {
 	public void setPublisherID(int publisherID) {
 		this.publisherID = publisherID;
 	}
+	
 	public String getISBN() {
 		return ISBN;
 	}
@@ -151,25 +153,5 @@ public class BookModel {
 	public void setISBN(String iSBN) {
 		this.ISBN = iSBN;
 	}
-	/*
-	public SimpleStringProperty bookTitleProp() {
-		return Title;
-	}
 	
-	public SimpleStringProperty bookSumProp() {
-		return Summary;
-	}
-	
-	public SimpleIntegerProperty bookPublishProp() {
-		return yearPublished;
-	}
-	
-	public SimpleIntegerProperty bookPubIDProp() {
-		return publisherID;
-	}
-	
-	public SimpleStringProperty bookISBNProp() {
-		return ISBN;
-	}
-	*/
 }

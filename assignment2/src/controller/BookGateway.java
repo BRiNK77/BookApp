@@ -1,14 +1,11 @@
 package controller;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 
 import model.BookModel;
@@ -69,11 +66,12 @@ public class BookGateway {
 		try {
 			conn.setAutoCommit(false);
 			
-			st = conn.prepareStatement("insert into Books (title, summary, year_published, isbn) values ( ?, ?, ?, ?)");
+			st = conn.prepareStatement("insert into Books (title, summary, year_published, publisher_id, isbn) values ( ?, ?, ?, ?, ?)");
 			st.setString(1, book.getTitle());
 			st.setString(2, book.getSummary());
 			st.setInt(3, book.getYearPublished());
-			st.setString(4, book.getISBN());
+			st.setInt(4, book.getPublisherID());
+			st.setString(5, book.getISBN());
 			st.executeUpdate();
 			
 			conn.commit();
@@ -133,10 +131,7 @@ public class BookGateway {
 		}
 	}
 	
-	// part 3 of step 6
 	public static void updateBook(BookModel aBook) throws GatewayException {
-		// System.out.println(aBook + "test 1");
-		// TODO: use model's id as a parameter for WHERE clause to SQL to update method
 		PreparedStatement st = null;
 		try {
 			conn.setAutoCommit(false);
@@ -145,16 +140,15 @@ public class BookGateway {
 					+ "set title = ?"
 					+ ", summary = ?"
 					+ ", year_published = ?"
+					+ ", publisher_id = ?"
 					+ ", isbn = ?"
 					+ " where id = ?");
-		//	System.out.println("test 2");
 			st.setString(1, aBook.getTitle());
 			st.setString(2, aBook.getSummary());
-		//	System.out.println("test 3");
 			st.setInt(3, aBook.getYearPublished());
-			st.setString(4, aBook.getISBN());
-		//	System.out.println("test 4");
-			st.setInt(5, aBook.getID());
+			st.setInt(4, aBook.getPublisherID());
+			st.setString(5, aBook.getISBN());
+			st.setInt(6, aBook.getID());
 			st.executeUpdate();
 			
 			conn.commit();
@@ -171,8 +165,8 @@ public class BookGateway {
 			
 		} finally {
 			try {
-				//if(st != null)
-				//	st.close();
+				if(st != null)
+					st.close();
 				conn.setAutoCommit(true);
 				
 			} catch (SQLException e) {
@@ -180,7 +174,6 @@ public class BookGateway {
 				throw new GatewayException("SQL Error: " + e.getMessage());
 			}
 		}
-		// TODO: throw exception, pass to model, if SQL statement fails, also update gui via JAVAFX Alert
 		
 	} // end updateBook
 	
@@ -200,5 +193,5 @@ public class BookGateway {
 				e.printStackTrace();
 			}
 		}
-	}
-}
+	} // end close
+} // end BookGateway

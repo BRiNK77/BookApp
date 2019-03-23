@@ -4,13 +4,13 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TextField fx:id="bookTitle" layoutX="207.0" layoutY="44.0" promptText="Title goes here..." />
-      <TextField fx:id="published" layoutX="43.0" layoutY="149.0" promptText="Year published here..." />
+      <TextField fx:id="bookTitle" layoutX="207.0" layoutY="44.0" promptText="Title goes here...*** " />
+      <TextField fx:id="published" layoutX="43.0" layoutY="128.0" promptText="Year published here..." />
       <TextField fx:id="ISBN" layoutX="43.0" layoutY="224.0" promptText="ISBN here...." />
       <TextArea fx:id="bookSum" layoutX="339.0" layoutY="124.0" prefHeight="200.0" prefWidth="200.0" promptText="Book Summary here..." />
-      <Button fx:id="saveB" layoutX="104.0" layoutY="318.0" mnemonicParsing="false" onAction="#saveButtonPressed" text="Save" />
+      <Button fx:id="saveB" layoutX="93.0" layoutY="303.0" mnemonicParsing="false" onAction="#saveButtonPressed" text="Save" />
+      <TextField fx:id="pubID" layoutX="43.0" layoutY="175.0" promptText="Publisher ID here...***" />
    </children>
 </AnchorPane>

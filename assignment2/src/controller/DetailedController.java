@@ -7,7 +7,6 @@ import javax.xml.bind.ValidationException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,12 +21,11 @@ public class DetailedController implements Initializable, MyController {
 	
 	private static Logger logger = LogManager.getLogger(DetailedController.class);
 	
-	@FXML private TextField bookTitle, published, ISBN;
+	@FXML private TextField bookTitle, published, ISBN, pubID;
 	@FXML private TextArea bookSum;
 	
 	private BookModel aBook;
 	private BookModel bookCopy;
-	private BookGateway gateway;
 	
 	@FXML private Button saveB;
 	
@@ -44,26 +42,31 @@ public class DetailedController implements Initializable, MyController {
 	@FXML void saveButtonPressed(ActionEvent event) {
 		if(event.getSource() == saveB) {
 			logger.info("Save button pressed.");
-			save();
+			
+			if(save()) {
+				logger.info("Changes fully saved.");
+			} else {
+				logger.info("Changes ");
+			}
 		}
 	}
 	
 	public boolean save() {
-	
+		
+		Alert alert = new Alert(AlertType.INFORMATION);
 		try {
 			checkUpdate();
-			// System.out.println(aBook);
-			// System.out.println(bookCopy);
 			
 			aBook.setTitle(this.bookCopy.getTitle());
 			aBook.setSummary(this.bookCopy.getSummary());
 			aBook.setYearPublished(this.bookCopy.getYearPublished());
+			aBook.setPublisherID(this.bookCopy.getPublisherID());
 			aBook.setISBN(this.bookCopy.getISBN());
 			
-			// System.out.println(aBook);
+			
 			aBook.saveBook();
 			
-			Alert alert = new Alert(AlertType.INFORMATION);
+			
 			alert.setTitle("Changes saved");
 			alert.setHeaderText(null);
 			alert.setContentText("Changes saved successfully!");
@@ -72,6 +75,9 @@ public class DetailedController implements Initializable, MyController {
 			
 		} catch(GatewayException | ValidationException e) {
 			logger.error("Could not save: " + e.getMessage());
+			alert.setTitle("Changes not saved");
+			alert.setHeaderText(null);
+			alert.setContentText(e.getMessage());
 			return false;
 		}
 		return true;
@@ -79,9 +85,6 @@ public class DetailedController implements Initializable, MyController {
 	}
 	
 	public void checkUpdate() {
-		// System.out.println(bookCopy.getYearPublished());
-		// System.out.println(published.getText());
-		// System.out.println(aBook.getYearPublished());
 		if(bookTitle.getText() == this.bookCopy.getTitle() && bookSum.getText() == this.bookCopy.getSummary() && Integer.parseInt(published.getText()) == this.bookCopy.getYearPublished() && ISBN.getText() == this.bookCopy.getISBN()) {
 			logger.info("No changes made.");
 		} else {
@@ -91,9 +94,8 @@ public class DetailedController implements Initializable, MyController {
 		this.bookCopy.setTitle(bookTitle.getText());
 		this.bookCopy.setSummary(bookSum.getText());
 		this.bookCopy.setYearPublished(Integer.parseInt(published.getText()));
+		this.bookCopy.setPublisherID(Integer.parseInt(pubID.getText()));
 		this.bookCopy.setISBN(ISBN.getText());
-		
-		// System.out.println("After" + aBook.getYearPublished() + bookCopy.getYearPublished());
 		
 		
 	}
@@ -103,6 +105,7 @@ public class DetailedController implements Initializable, MyController {
 		bookTitle.setText(this.bookCopy.getTitle());
 		bookSum.setText(this.bookCopy.getSummary());
 		published.setText("" + this.bookCopy.getYearPublished());
+		pubID.setText("" + this.bookCopy.getPublisherID());
 		ISBN.setText(this.bookCopy.getISBN());
 	}
 }

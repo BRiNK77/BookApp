@@ -9,14 +9,12 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.ComboBox;
+
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import controller.BookGateway;
@@ -93,7 +91,6 @@ public class AppController implements Initializable {
 	// handles menu actions
 	@FXML
 	void onMenuClick(ActionEvent event) {
-		//List<BookModel> list = BookGateway.getBooks();
 		if(event.getSource() == mClose) {
 			
 			Platform.exit();
