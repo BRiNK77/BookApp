@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDateTime;
+
 import javax.xml.bind.ValidationException;
 
 import controller.BookGateway;
@@ -14,6 +16,7 @@ public class BookModel {
 	private int yearPublished;
 	private int publisherID;
 	private String ISBN;
+	private LocalDateTime lastModified;
 
 	public BookModel(int id, String title, String summary, int yearPublished, int publisherid, String isbn) {  //int id, String title, String summary, int yearPublished, String isbn
 		this();
@@ -33,6 +36,7 @@ public class BookModel {
 		Summary = "Summary Here...";
 		publisherID = 0;
 		ISBN = "ISBN Here...";
+		lastModified = null;
 	}
 	
 	public String toString() {
@@ -80,7 +84,6 @@ public class BookModel {
 		return check;
 	}
 
-	// part 2 of step 6
 	public void saveBook() throws ValidationException, GatewayException {
 		if(!titleCheck(getTitle())) {
 			throw new ValidationException("Invalid Title: " + getTitle());
@@ -95,8 +98,6 @@ public class BookModel {
 			throw new ValidationException("Invalid ISBN: " + getISBN());
 		}
 		
-		//System.out.println(this);
-		
 		if(this.getID() == 0) {
 			BookGateway.insertBook(this);
 			
@@ -106,6 +107,14 @@ public class BookModel {
 		}
 	}
 	
+	public LocalDateTime getLastModified() {
+		return lastModified;
+	}
+
+	public void setLastModified(LocalDateTime lastModified) {
+		this.lastModified = lastModified;
+	}
+
 	public int getID() {
 		return ID;
 	}

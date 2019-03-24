@@ -1,6 +1,7 @@
 package controller;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 import javax.xml.bind.ValidationException;
@@ -21,18 +22,19 @@ public class DetailedController implements Initializable, MyController {
 	
 	private static Logger logger = LogManager.getLogger(DetailedController.class);
 	
-	@FXML private TextField bookTitle, published, ISBN, pubID;
+	@FXML private TextField bookTitle, published, ISBN, pubID, time;
 	@FXML private TextArea bookSum;
 	
 	private BookModel aBook;
 	private BookModel bookCopy;
 	
 	@FXML private Button saveB;
+	private LocalDateTime originalTime;
 	
 	public DetailedController(BookModel book) {
 		this.aBook = book;
 		this.bookCopy = book;
-		
+		this.originalTime = aBook.getLastModified();
 	}
 	
 	public DetailedController() {
@@ -43,18 +45,32 @@ public class DetailedController implements Initializable, MyController {
 		if(event.getSource() == saveB) {
 			logger.info("Save button pressed.");
 			
-			if(save()) {
-				logger.info("Changes fully saved.");
-			} else {
-				logger.info("Changes ");
+			LocalDateTime currentTime;
+			try {
+				currentTime = BookGateway.getBookLastModifiedById(aBook.getID());
+				if(!currentTime.equals(originalTime)) {
+					AlertHelper.showWarningMessage("Cannot save!", "Record has been changed since this view loaded", "Please refresh your view and try again.");
+					if(save()) {
+						logger.info("Changes fully saved.");
+					} else {
+						logger.info("Changes not saved.");
+					}
+				}
+			} catch (controller.ValidationException e) {
+				e.printStackTrace();
 			}
+			
+			
 		}
 	}
 	
 	public boolean save() {
 		
+		
 		Alert alert = new Alert(AlertType.INFORMATION);
 		try {
+			
+			
 			checkUpdate();
 			
 			aBook.setTitle(this.bookCopy.getTitle());
@@ -65,7 +81,7 @@ public class DetailedController implements Initializable, MyController {
 			
 			
 			aBook.saveBook();
-			
+			originalTime = aBook.getLastModified();
 			
 			alert.setTitle("Changes saved");
 			alert.setHeaderText(null);
@@ -107,5 +123,6 @@ public class DetailedController implements Initializable, MyController {
 		published.setText("" + this.bookCopy.getYearPublished());
 		pubID.setText("" + this.bookCopy.getPublisherID());
 		ISBN.setText(this.bookCopy.getISBN());
+		time.setText("" + this.bookCopy.getLastModified());
 	}
 }

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +43,10 @@ public class BookGateway {
 			while(rs.next()) {
 				// System.out.println(rs.getInt("id"));
 				BookModel book = new BookModel(rs.getInt("id"), rs.getString("title"), rs.getString("summary"), rs.getInt("year_published"), rs.getInt("publisher_id"), rs.getString("isbn") );
+				
+				Timestamp ts = rs.getTimestamp("last_modified");
+				book.setLastModified(ts.toLocalDateTime());
+				
 				books.add(book);
 				
 			} // end while
@@ -134,7 +140,6 @@ public class BookGateway {
 	public static void updateBook(BookModel aBook) throws GatewayException {
 		PreparedStatement st = null;
 		try {
-			conn.setAutoCommit(false);
 			
 			st = conn.prepareStatement("update Books "
 					+ "set title = ?"
@@ -151,9 +156,9 @@ public class BookGateway {
 			st.setInt(6, aBook.getID());
 			st.executeUpdate();
 			
-			conn.commit();
+			aBook.setLastModified(BookGateway.getBookLastModifiedById(aBook.getID()));
 			
-		} catch(SQLException e) {
+		} catch(SQLException | ValidationException e) {
 			try {
 				conn.rollback();
 				
@@ -167,7 +172,6 @@ public class BookGateway {
 			try {
 				if(st != null)
 					st.close();
-				conn.setAutoCommit(true);
 				
 			} catch (SQLException e) {
 				
@@ -176,6 +180,34 @@ public class BookGateway {
 		}
 		
 	} // end updateBook
+	
+	public static LocalDateTime getBookLastModifiedById(int id) throws ValidationException {
+		LocalDateTime date = null;
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("select * from Books where id = ?");
+			st.setInt(1, id);
+			ResultSet rs = st.executeQuery();
+			rs.next();
+			Timestamp ts = rs.getTimestamp("last_modified");
+			date = ts.toLocalDateTime();
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+			throw new ValidationException(e);
+			
+		} finally {
+			try {
+				if(st != null) {
+					st.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new ValidationException(e);
+			}
+		}
+		return date;
+	} // end getBookLastModified
 	
 	public Connection getConnection() {
 		return conn;

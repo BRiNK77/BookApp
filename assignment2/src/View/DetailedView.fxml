@@ -12,5 +12,6 @@
       <TextArea fx:id="bookSum" layoutX="339.0" layoutY="124.0" prefHeight="200.0" prefWidth="200.0" promptText="Book Summary here..." />
       <Button fx:id="saveB" layoutX="93.0" layoutY="303.0" mnemonicParsing="false" onAction="#saveButtonPressed" text="Save" />
       <TextField fx:id="pubID" layoutX="43.0" layoutY="175.0" promptText="Publisher ID here...***" />
+      <TextField fx:id="time" layoutX="365.0" layoutY="337.0" promptText="Last Modified here..." />
    </children>
 </AnchorPane>
