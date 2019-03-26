@@ -100,9 +100,10 @@ public class DetailedController implements Initializable, MyController {
 		
 	}
 	
-	public void checkUpdate() {
+	public boolean checkUpdate() {
 		if(bookTitle.getText() == this.bookCopy.getTitle() && bookSum.getText() == this.bookCopy.getSummary() && Integer.parseInt(published.getText()) == this.bookCopy.getYearPublished() && ISBN.getText() == this.bookCopy.getISBN()) {
 			logger.info("No changes made.");
+			return false;
 		} else {
 			logger.info("Changes made.");
 		}
@@ -112,7 +113,7 @@ public class DetailedController implements Initializable, MyController {
 		this.bookCopy.setYearPublished(Integer.parseInt(published.getText()));
 		this.bookCopy.setPublisherID(Integer.parseInt(pubID.getText()));
 		this.bookCopy.setISBN(ISBN.getText());
-		
+		return true;
 		
 	}
 	

@@ -1,7 +1,6 @@
 package model;
 
 import java.time.LocalDateTime;
-
 import javax.xml.bind.ValidationException;
 
 import controller.BookGateway;
