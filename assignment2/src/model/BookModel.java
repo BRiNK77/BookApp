@@ -13,18 +13,18 @@ public class BookModel {
 	private String Title;
 	private String Summary;
 	private int yearPublished;
-	private int publisherID;
+	private PublisherModel publisher;
 	private String ISBN;
 	private LocalDateTime lastModified;
 
-	public BookModel(int id, String title, String summary, int yearPublished, int publisherid, String isbn) {  //int id, String title, String summary, int yearPublished, String isbn
+	public BookModel(int id, String title, String summary, int yearPublished, int publisher, String isbn) {  //int id, String title, String summary, int yearPublished, String isbn
 		this();
 		
 		this.ID = id;
 		this.Title = title;
 		this.Summary = summary;
 		this.yearPublished = yearPublished;
-		this.publisherID = publisherid;
+		this.publisher = BookGateway.getPublisherbyId(publisher);
 		this.ISBN = isbn;
 		
 	}
@@ -33,7 +33,7 @@ public class BookModel {
 		ID = 0;
 		Title = "Title Here...";
 		Summary = "Summary Here...";
-		publisherID = 0;
+		publisher = new PublisherModel();
 		ISBN = "ISBN Here...";
 		lastModified = null;
 	}
@@ -146,12 +146,12 @@ public class BookModel {
 		this.yearPublished = yearPublished;
 	}
 	
-	public int getPublisherID() {
-		return publisherID;
+	public PublisherModel getPublisher() {
+		return publisher;
 	}
 
-	public void setPublisherID(int publisherID) {
-		this.publisherID = publisherID;
+	public void setPublisher(PublisherModel publisher) {
+		this.publisher = publisher;
 	}
 	
 	public String getISBN() {

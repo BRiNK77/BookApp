@@ -11,6 +11,7 @@ import java.util.List;
 
 
 import model.BookModel;
+import model.PublisherModel;
 import controller.GatewayException;
 
 public class BookGateway {
@@ -30,6 +31,34 @@ public class BookGateway {
 			return instance;
 		} // end BookGateway
 		
+	public static List<PublisherModel> getPublishers(){
+		List<PublisherModel> pubs = new ArrayList<PublisherModel>();
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement("select * from publisher");
+			rs = st.executeQuery();
+			
+			while(rs.next()) {
+				PublisherModel aPub = new PublisherModel(rs.getInt("id"), rs.getString("publisher_name"));
+				pubs.add(aPub);
+			}
+		} catch (SQLException e) { 
+			e.printStackTrace();
+			// throw new AppException(e);
+			
+		} finally {
+			try {
+				if(st != null) {
+					st.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				// throw new AppException(e);
+			}
+		}
+		return pubs;
+	}
 	public static List<BookModel> getBooks() {
 		
 		List<BookModel> books = new ArrayList<BookModel>();
@@ -76,7 +105,7 @@ public class BookGateway {
 			st.setString(1, book.getTitle());
 			st.setString(2, book.getSummary());
 			st.setInt(3, book.getYearPublished());
-			st.setInt(4, book.getPublisherID());
+			st.setInt(4, book.getPublisher().getId());
 			st.setString(5, book.getISBN());
 			st.executeUpdate();
 			
@@ -136,7 +165,9 @@ public class BookGateway {
 			}
 		}
 	}
-	
+	public static void updatePublisher() {
+		
+	}
 	public static void updateBook(BookModel aBook) throws GatewayException {
 		PreparedStatement st = null;
 		try {
@@ -151,7 +182,7 @@ public class BookGateway {
 			st.setString(1, aBook.getTitle());
 			st.setString(2, aBook.getSummary());
 			st.setInt(3, aBook.getYearPublished());
-			st.setInt(4, aBook.getPublisherID());
+			st.setInt(4, aBook.getPublisher().getId());
 			st.setString(5, aBook.getISBN());
 			st.setInt(6, aBook.getID());
 			st.executeUpdate();
@@ -180,7 +211,29 @@ public class BookGateway {
 		}
 		
 	} // end updateBook
-	
+	public static PublisherModel getPublisherbyId(int id) {
+		PreparedStatement st = null;
+		PublisherModel pub = null;
+		try {
+			st = conn.prepareStatement("select * from publisher where id = ?");
+			st.setInt(1, id);
+			ResultSet rs = st.executeQuery();
+			rs.next();
+			pub = new PublisherModel(rs.getInt("id"), rs.getString("publisher_name"));
+		} catch(SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				if(st != null) {
+					st.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+		}
+	}
+		return pub;
+	}
 	public static LocalDateTime getBookLastModifiedById(int id) throws ValidationException {
 		LocalDateTime date = null;
 		PreparedStatement st = null;

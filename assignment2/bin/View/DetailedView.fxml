@@ -8,10 +8,11 @@
    <children>
       <TextField fx:id="bookTitle" layoutX="207.0" layoutY="44.0" promptText="Title goes here...*** " />
       <TextField fx:id="published" layoutX="43.0" layoutY="128.0" promptText="Year published here..." />
-      <TextField fx:id="ISBN" layoutX="43.0" layoutY="224.0" promptText="ISBN here...." />
+      <TextField fx:id="ISBN" layoutX="43.0" layoutY="175.0" promptText="ISBN here...." />
       <TextArea fx:id="bookSum" layoutX="339.0" layoutY="124.0" prefHeight="200.0" prefWidth="200.0" promptText="Book Summary here..." />
-      <Button fx:id="saveB" layoutX="93.0" layoutY="303.0" mnemonicParsing="false" onAction="#saveButtonPressed" text="Save" />
-      <TextField fx:id="pubID" layoutX="43.0" layoutY="175.0" promptText="Publisher ID here...***" />
-      <TextField fx:id="time" layoutX="365.0" layoutY="337.0" promptText="Last Modified here..." />
+      <Button fx:id="saveB" layoutX="111.0" layoutY="293.0" mnemonicParsing="false" onAction="#saveButtonPressed" text="Save" />
+      <TextField fx:id="pubID" layoutX="207.0" layoutY="452.0" promptText="Publisher ID here...***" />
+      <TextField fx:id="time" layoutX="346.0" layoutY="338.0" promptText="Last Modified here..." />
+      <ComboBox fx:id="listPub" layoutX="62.0" layoutY="224.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

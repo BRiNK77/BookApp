@@ -22,6 +22,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import controller.BookGateway;
 import model.BookModel;
+import model.PublisherModel;
 
 public class AppController implements Initializable {
 	
@@ -52,7 +53,7 @@ public class AppController implements Initializable {
 	// method to handle view switching on single screen
 	public boolean switchView(ViewType viewType, Object data) {
 		if(currentCon != null) {
-			if(currentCon.checkUpdate()) {
+			if(currentCon.hasChanged()) {
 				
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				
@@ -93,14 +94,15 @@ public class AppController implements Initializable {
 				break;
 				
 			case VIEW2:
-				viewString = "/View/DetailedView.fxml";
-				currentCon = new DetailedController((BookModel) data);
+				List<PublisherModel> pubs = BookGateway.getPublishers();				viewString = "/View/DetailedView.fxml";
+				currentCon = new DetailedController((BookModel) data, pubs);
 				break;
 				
 			case VIEW3:
 				BookModel book = new BookModel();
+				List<PublisherModel> publishers = BookGateway.getPublishers();
 				viewString = "/View/DetailedView.fxml";
-				currentCon = new DetailedController(book);
+				currentCon = new DetailedController(book, publishers);
 				break;
 		}
 		
@@ -141,7 +143,7 @@ public class AppController implements Initializable {
 	void onMenuClick(ActionEvent event) {
 		if(event.getSource() == mClose) {
 			if(currentCon != null) {
-				if(currentCon.checkUpdate()) {
+				if(currentCon.hasChanged()) {
 					
 					Alert alert = new Alert(AlertType.CONFIRMATION);
 					
