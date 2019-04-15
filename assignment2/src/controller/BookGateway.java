@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import model.AuditTrailModel;
 import model.BookModel;
 import model.PublisherModel;
 import controller.GatewayException;
@@ -59,6 +59,7 @@ public class BookGateway {
 		}
 		return pubs;
 	}
+	
 	public static List<BookModel> getBooks() {
 		
 		List<BookModel> books = new ArrayList<BookModel>();
@@ -96,6 +97,78 @@ public class BookGateway {
 		return books;
 	} // end getBooks
 	
+	public static void insertAudit(AuditTrailModel audit) {
+		PreparedStatement st = null;
+		try {
+			conn.setAutoCommit(false);
+			
+			st = conn.prepareStatement("insert into book_audit_trail (book_id, entry_msg) values ( ?, ?)");
+			st.setInt(1, audit.getId());
+			st.setString(2, audit.getMessage());
+			st.executeUpdate();
+			
+			conn.commit();
+			
+		} catch (SQLException e) { 
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			// throw new AppException(e);
+			
+		} finally {
+			try {
+				if(st != null) {
+					st.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				// throw new AppException(e);
+			}
+		}
+	}
+	
+public static List<AuditTrailModel> getAuditTrail(AuditTrailModel audit) {
+		
+		List<AuditTrailModel> listA = new ArrayList<AuditTrailModel>();
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		LocalDateTime date = null;
+		
+		try {
+			st = conn.prepareStatement("select * from book_audit_trail where id = ?");
+			st.setInt(1, audit.getId());
+			rs = st.executeQuery();
+			
+			while(rs.next()) {
+				
+				Timestamp ts = rs.getTimestamp("date_added");
+				date = ts.toLocalDateTime();
+				AuditTrailModel anAudit = new AuditTrailModel(rs.getInt("id"), date, rs.getString("message") );
+				
+				listA.add(anAudit);
+				
+			} // end while
+		} catch (SQLException e) { 
+			e.printStackTrace();
+			// throw new AppException(e);
+			
+		} finally {
+			try {
+				if(st != null) {
+					st.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				// throw new AppException(e);
+			}
+		}
+		return listA;
+	}
+
 	public static void insertBook(BookModel book) {
 		PreparedStatement st = null;
 		try {
@@ -165,9 +238,7 @@ public class BookGateway {
 			}
 		}
 	}
-	public static void updatePublisher() {
-		
-	}
+	
 	public static void updateBook(BookModel aBook) throws GatewayException {
 		PreparedStatement st = null;
 		try {

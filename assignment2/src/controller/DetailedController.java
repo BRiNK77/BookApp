@@ -18,6 +18,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import model.AuditTrailModel;
 import model.BookModel;
 import model.PublisherModel;
 
@@ -112,15 +113,42 @@ public class DetailedController implements Initializable, MyController {
 		return false;
 	}
 	public boolean checkUpdate() {
-		//System.out.println(listPub.getValue());
 		
-		if(bookTitle.getText() == this.bookCopy.getTitle() && bookSum.getText() == this.bookCopy.getSummary() && Integer.parseInt(published.getText()) == this.bookCopy.getYearPublished() && ISBN.getText() == this.bookCopy.getISBN() && listPub.getValue().getId() == this.bookCopy.getPublisher().getId()) {
+		AuditTrailModel audit;
+		
+		if(bookTitle.getText() != this.bookCopy.getTitle() ) {
+			
+			audit = new AuditTrailModel(this.aBook.getID(), "Changes made to title " + bookTitle.getText() + " to " + this.bookCopy.getTitle());
+			logger.info("Changes made to title " + bookTitle.getText() + " to " + this.bookCopy.getTitle());
+			
+		} else if (bookSum.getText() != this.bookCopy.getSummary() ) {
+			
+			audit = new AuditTrailModel(this.aBook.getID(), "Changes made to summary " + bookSum.getText() + " to " + this.bookCopy.getSummary() );
+			logger.info("Changes made to summary " + bookSum.getText() + " to " + this.bookCopy.getSummary());
+			
+		} else if (Integer.parseInt(published.getText()) != this.bookCopy.getYearPublished()) { 
+			
+			audit = new AuditTrailModel(this.aBook.getID(), "Changes made to publisher year " + Integer.parseInt(published.getText()) + " to " + this.bookCopy.getYearPublished() );
+			logger.info("Changes made to publisher year " + Integer.parseInt(published.getText()) + " to " + this.bookCopy.getYearPublished());
+			
+		} else if (ISBN.getText() != this.bookCopy.getISBN() ) {
+			
+			audit = new AuditTrailModel(this.aBook.getID(), "Changes made to ISBN " + ISBN.getText() + " to " + this.bookCopy.getISBN() );
+			logger.info("Changes made to ISBN " + ISBN.getText() + " to " + this.bookCopy.getISBN());
+			
+		} else if(listPub.getValue().getId() != this.bookCopy.getPublisher().getId() ) {
+			
+			audit = new AuditTrailModel(this.aBook.getID(), "Changes made to publisher " + listPub.getValue().getId() + " to " + this.bookCopy.getPublisher().getId() );
+			logger.info("Changes made to publisher " + listPub.getValue().getId() + " to " + this.bookCopy.getPublisher().getId());
+			
+		} else {
+			
 			logger.info("No changes made.");
 			return false;
-		} else {
-			logger.info("Changes made.");
+			
 		}
 		
+		BookGateway.insertAudit(audit);
 		this.bookCopy.setTitle(bookTitle.getText());
 		this.bookCopy.setSummary(bookSum.getText());
 		this.bookCopy.setYearPublished(Integer.parseInt(published.getText()));

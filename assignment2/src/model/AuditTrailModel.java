@@ -8,13 +8,22 @@ public class AuditTrailModel{
 	private String message;
 	
 	
-	public AuditTrailModel(int ID, String messa) {
+	public AuditTrailModel(int ID, LocalDateTime date, String messa) {
 		this.id = ID;
+		this.dateAdded = date;
 		this.message = messa;
 		
 	}
 
-
+	public AuditTrailModel(int ID, String messa) {
+		this.id = ID;
+		this.message = messa;
+	}
+	
+	public String toString() {
+		return this.dateAdded + " : " + this.message;
+	}
+	
 	public int getId() {
 		return id;
 	}

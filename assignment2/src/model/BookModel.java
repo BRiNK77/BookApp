@@ -98,7 +98,9 @@ public class BookModel {
 		}
 		
 		if(this.getID() == 0) {
+			AuditTrailModel audit = new AuditTrailModel(this.getID(),"Book added.");
 			BookGateway.insertBook(this);
+			BookGateway.insertAudit(audit);
 			
 		} else {
 			BookGateway.updateBook(this);
