@@ -6,12 +6,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ListView layoutX="52.0" layoutY="91.0" prefHeight="232.0" prefWidth="496.0" />
-      <Button layoutX="274.0" layoutY="341.0" mnemonicParsing="false" text="Back" />
-      <Label layoutX="216.0" layoutY="39.0" prefHeight="18.0" prefWidth="181.0" text="Label" textAlignment="CENTER">
+      <ListView fx:id="listviewAudits" layoutX="52.0" layoutY="91.0" prefHeight="232.0" prefWidth="496.0" />
+      <Button fx:id="backB" layoutX="274.0" layoutY="341.0" mnemonicParsing="false" onAction="#backButtonPressed" text="Back" />
+      <Label fx:id="title" layoutX="125.0" layoutY="39.0" prefHeight="27.0" prefWidth="297.0" text="Label" textAlignment="CENTER">
          <font>
             <Font size="18.0" />
          </font>

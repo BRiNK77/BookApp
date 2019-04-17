@@ -1,6 +1,6 @@
 package controller;
 /* Assignment 2 By: Tristan Zaleski
- *  got stuck on step 4, could not get information to display properly, will be fixing and resubmitting
+ *  Resubmitting for correction points. All aspects of the assignment are working correctly.
  * */
 import java.net.URL;
 import controller.BookGateway;
@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
 
+// main file for the application, sets up the initial view and controller. Also establishes connection with database apon start
 public class Main extends Application {
 
 	private static final Logger logger = LogManager.getLogger();
@@ -42,6 +43,7 @@ public class Main extends Application {
 		stage.show();
 	}
 	
+	// on start of app, will attempt to make a connection with the database
 	public void init() throws Exception {
 		super.init();
 		logger.info("Creating Connection with DB...");
@@ -55,6 +57,7 @@ public class Main extends Application {
 		BookGateway.getInstance().setConnection(connection);
 	}
 	
+	// on app close, will close the connection to database
 	public void stop() throws Exception {
 		super.stop();
 		
@@ -63,6 +66,7 @@ public class Main extends Application {
 		BookGateway.getInstance().getConnection().close();
 	}
 	
+	// main that launches the application
 	public static void main(String[] args) {
 		launch(args);
 	}

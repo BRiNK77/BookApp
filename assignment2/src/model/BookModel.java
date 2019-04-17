@@ -1,6 +1,8 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 import javax.xml.bind.ValidationException;
 
 import controller.BookGateway;
@@ -62,6 +64,11 @@ public class BookModel {
 			check = true;
 		}
 		return check;
+	}
+	
+	public List<AuditTrailModel> getAuditTrail(){
+		List<AuditTrailModel> list = BookGateway.getAuditTrail(ID);
+		return list;
 	}
 	
 	public boolean yearPubCheck(int year) {

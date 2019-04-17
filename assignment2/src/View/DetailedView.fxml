@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TextField fx:id="bookTitle" layoutX="207.0" layoutY="44.0" promptText="Title goes here...*** " />
       <TextField fx:id="published" layoutX="43.0" layoutY="128.0" promptText="Year published here..." />
       <TextField fx:id="ISBN" layoutX="43.0" layoutY="175.0" promptText="ISBN here...." />
       <TextArea fx:id="bookSum" layoutX="339.0" layoutY="124.0" prefHeight="200.0" prefWidth="200.0" promptText="Book Summary here..." />
-      <Button fx:id="saveB" layoutX="111.0" layoutY="293.0" mnemonicParsing="false" onAction="#saveButtonPressed" text="Save" />
-      <TextField fx:id="pubID" layoutX="207.0" layoutY="452.0" promptText="Publisher ID here...***" />
-      <TextField fx:id="time" layoutX="346.0" layoutY="338.0" promptText="Last Modified here..." />
-      <ComboBox fx:id="listPub" layoutX="62.0" layoutY="224.0" prefWidth="150.0" />
+      <Button fx:id="saveB" layoutX="97.0" layoutY="262.0" mnemonicParsing="false" onAction="#saveButtonPressed" text="Save" />
+      <TextField fx:id="time" layoutX="365.0" layoutY="338.0" promptText="Last Modified here..." />
+      <ComboBox fx:id="listPub" layoutX="44.0" layoutY="224.0" prefWidth="150.0" />
+      <Button fx:id="auditB" layoutX="92.0" layoutY="299.0" mnemonicParsing="false" onAction="#auditButtonPressed" text="Audits" />
    </children>
 </AnchorPane>

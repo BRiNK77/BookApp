@@ -21,9 +21,11 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import controller.BookGateway;
+import model.AuditTrailModel;
 import model.BookModel;
 import model.PublisherModel;
 
+// the overall controller for the application, handles the connection to database, and changing of views
 public class AppController implements Initializable {
 	
 	private static Logger logger = LogManager.getLogger(AppController.class);
@@ -35,6 +37,7 @@ public class AppController implements Initializable {
 		
 	}
 	
+	// creates single instance for the application
 	public static AppController getInstance() {
 		if(instance == null) {
 			instance = new AppController();
@@ -103,6 +106,13 @@ public class AppController implements Initializable {
 				List<PublisherModel> publishers = BookGateway.getPublishers();
 				viewString = "/View/DetailedView.fxml";
 				currentCon = new DetailedController(book, publishers);
+				break;
+				
+			case VIEW4:
+				int id = ((BookModel) data).getID();
+				List<AuditTrailModel> audits = BookGateway.getAuditTrail(id);
+				viewString = "/View/AuditView.fxml";
+				controller = new AuditViewController(audits, (BookModel) data);
 				break;
 		}
 		

@@ -4,9 +4,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import javax.xml.bind.ValidationException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javafx.event.ActionEvent;
@@ -22,6 +20,7 @@ import model.AuditTrailModel;
 import model.BookModel;
 import model.PublisherModel;
 
+// controller for the detailed view
 public class DetailedController implements Initializable, MyController {
 	
 	private static Logger logger = LogManager.getLogger(DetailedController.class);
@@ -33,10 +32,11 @@ public class DetailedController implements Initializable, MyController {
 	private BookModel aBook;
 	private BookModel bookCopy;
 	
-	@FXML private Button saveB;
+	@FXML private Button saveB, auditB;
 	private LocalDateTime originalTime;
 	private List<PublisherModel> listPubs;
 	
+	// sets values for the view apon declaration
 	public DetailedController(BookModel book, List<PublisherModel> pubs) {
 		this.aBook = book;
 		this.bookCopy = book;
@@ -44,10 +44,18 @@ public class DetailedController implements Initializable, MyController {
 		this.originalTime = aBook.getLastModified();
 	}
 	
+	// for blank/new books, require a blank controller
 	public DetailedController() {
 		
 	}
 	
+	// handles audit button action
+	@FXML void auditButtonPressed(ActionEvent event) {
+		AppController.getInstance().switchView(ViewType.VIEW4, this.aBook);
+		
+	}
+	
+	// handles save button action
 	@FXML void saveButtonPressed(ActionEvent event) {
 		if(event.getSource() == saveB) {
 			logger.info("Save button pressed.");
@@ -72,24 +80,35 @@ public class DetailedController implements Initializable, MyController {
 		}
 	}
 	
+	// save function that checks for updates and calls the save function in the gateway to save values to database
 	public boolean save() {
 		
 		Alert alert = new Alert(AlertType.INFORMATION);
 		try {
 			
-			checkUpdate();
+			// checking for updates on info
+			if(checkUpdate()) {
+				
+				this.bookCopy.setTitle(bookTitle.getText());
+				this.bookCopy.setSummary(bookSum.getText());
+				this.bookCopy.setYearPublished(Integer.parseInt(published.getText()));
+				this.bookCopy.setPublisher(listPub.getValue());
+				this.bookCopy.setISBN(ISBN.getText());
+			}
 			
+			// updates all the values for the book and its copy
 			aBook.setTitle(this.bookCopy.getTitle());
 			aBook.setSummary(this.bookCopy.getSummary());
 			aBook.setYearPublished(this.bookCopy.getYearPublished());
 			aBook.setPublisher(this.bookCopy.getPublisher());
 			aBook.setISBN(this.bookCopy.getISBN());
 			
-			//System.out.println(aBook.getPublisher());
 			
 			aBook.saveBook();
+			// sets the new last modified time stamp
 			originalTime = aBook.getLastModified();
 			
+			// alerts user of successful save
 			alert.setTitle("Changes saved");
 			alert.setHeaderText(null);
 			alert.setContentText("Changes saved successfully!");
@@ -106,40 +125,53 @@ public class DetailedController implements Initializable, MyController {
 		return true;
 		
 	}
+	
+	// checks if the book has changed on screen via the publisher id's
 	public boolean hasChanged() {
 		if(aBook.getPublisher().getId() != listPub.getValue().getId()) {
 			return true;
 		}
 		return false;
 	}
+	
+	// checks each field and saves audits for any changes, returns true if changes made, false otherwise
 	public boolean checkUpdate() {
 		
 		AuditTrailModel audit;
 		
-		if(bookTitle.getText() != this.bookCopy.getTitle() ) {
+		if(!bookTitle.getText().equals( this.bookCopy.getTitle() ) ) {
 			
-			audit = new AuditTrailModel(this.aBook.getID(), "Changes made to title " + bookTitle.getText() + " to " + this.bookCopy.getTitle());
-			logger.info("Changes made to title " + bookTitle.getText() + " to " + this.bookCopy.getTitle());
+			audit = new AuditTrailModel(this.aBook.getID(), "Changes made to title " + this.bookCopy.getTitle()  + " to " + bookTitle.getText() );
+			logger.info("Changes made to title " + this.bookCopy.getTitle()  + " to " + bookTitle.getText() );
+			BookGateway.insertAudit(audit);
 			
-		} else if (bookSum.getText() != this.bookCopy.getSummary() ) {
+		} 
+		if (!bookSum.getText().equals(this.bookCopy.getSummary() ) ) {
 			
-			audit = new AuditTrailModel(this.aBook.getID(), "Changes made to summary " + bookSum.getText() + " to " + this.bookCopy.getSummary() );
-			logger.info("Changes made to summary " + bookSum.getText() + " to " + this.bookCopy.getSummary());
+			audit = new AuditTrailModel(this.aBook.getID(), "Changes made to summary " + this.bookCopy.getSummary() + " to " + bookSum.getText() );
+			logger.info("Changes made to summary " + this.bookCopy.getSummary() + " to " + bookSum.getText() );
+			BookGateway.insertAudit(audit);
 			
-		} else if (Integer.parseInt(published.getText()) != this.bookCopy.getYearPublished()) { 
+		} 
+		if (Integer.parseInt(published.getText()) != this.bookCopy.getYearPublished()) { 
 			
-			audit = new AuditTrailModel(this.aBook.getID(), "Changes made to publisher year " + Integer.parseInt(published.getText()) + " to " + this.bookCopy.getYearPublished() );
-			logger.info("Changes made to publisher year " + Integer.parseInt(published.getText()) + " to " + this.bookCopy.getYearPublished());
+			audit = new AuditTrailModel(this.aBook.getID(), "Changes made to publisher year " + this.bookCopy.getYearPublished()  + " to " + Integer.parseInt(published.getText()) );
+			logger.info("Changes made to publisher year " + this.bookCopy.getYearPublished() + " to " + Integer.parseInt(published.getText()));
+			BookGateway.insertAudit(audit);
 			
-		} else if (ISBN.getText() != this.bookCopy.getISBN() ) {
+		} 
+		if (!ISBN.getText().equals(this.bookCopy.getISBN() )  ){
 			
-			audit = new AuditTrailModel(this.aBook.getID(), "Changes made to ISBN " + ISBN.getText() + " to " + this.bookCopy.getISBN() );
-			logger.info("Changes made to ISBN " + ISBN.getText() + " to " + this.bookCopy.getISBN());
+			audit = new AuditTrailModel(this.aBook.getID(), "Changes made to ISBN " + this.bookCopy.getISBN() + " to " + ISBN.getText() );
+			logger.info("Changes made to ISBN " + this.bookCopy.getISBN() + " to " + ISBN.getText() );
+			BookGateway.insertAudit(audit);
 			
-		} else if(listPub.getValue().getId() != this.bookCopy.getPublisher().getId() ) {
+		} 
+		if(!listPub.getValue().getPubName().equals(this.bookCopy.getPublisher().getPubName() ) ) {
 			
-			audit = new AuditTrailModel(this.aBook.getID(), "Changes made to publisher " + listPub.getValue().getId() + " to " + this.bookCopy.getPublisher().getId() );
-			logger.info("Changes made to publisher " + listPub.getValue().getId() + " to " + this.bookCopy.getPublisher().getId());
+			audit = new AuditTrailModel(this.aBook.getID(), "Changes made to publisher " + this.bookCopy.getPublisher().getId()  + " to " + listPub.getValue().getId() );
+			logger.info("Changes made to publisher " + this.bookCopy.getPublisher().getId() + " to " +  listPub.getValue().getId() );
+			BookGateway.insertAudit(audit);
 			
 		} else {
 			
@@ -148,16 +180,11 @@ public class DetailedController implements Initializable, MyController {
 			
 		}
 		
-		BookGateway.insertAudit(audit);
-		this.bookCopy.setTitle(bookTitle.getText());
-		this.bookCopy.setSummary(bookSum.getText());
-		this.bookCopy.setYearPublished(Integer.parseInt(published.getText()));
-		this.bookCopy.setPublisher(listPub.getValue());
-		this.bookCopy.setISBN(ISBN.getText());
 		return true;
 		
 	}
 	
+	// sets up the view with data
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		listPub.getItems().addAll(listPubs);

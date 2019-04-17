@@ -17,6 +17,7 @@ import model.BookModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
+// controller for the book list view
 public class BookListController implements Initializable, MyController {
 	
 	private static Logger logger = LogManager.getLogger(BookListController.class);
@@ -30,15 +31,15 @@ public class BookListController implements Initializable, MyController {
 		this.listData = books;
 	}
 	
+	// handles delete button action
 	@FXML void deleteButtonPressed(ActionEvent event) {
 		if(event.getSource() == deleteB) {
 			logger.info("Delete button pressed.");
 			BookModel selected = listviewBooks.getSelectionModel().getSelectedItem();
-			// System.out.println(selected.getID());
+			
 			try {
 				BookGateway.deleteBook(selected);
 			} catch (GatewayException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			AppController.getInstance().switchView( ViewType.VIEW1, null);
@@ -47,7 +48,7 @@ public class BookListController implements Initializable, MyController {
 		}
 	}
 	
-	
+	// sets up the list with given data
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 	
@@ -70,5 +71,5 @@ public class BookListController implements Initializable, MyController {
 			}	
 		});
 		
-	}
-}
+	} // end initialize 
+} // end list controller 

@@ -3,6 +3,7 @@ package controller;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+// alert system setup that creates an outlined alert message and displays them based on data given
 public class AlertHelper {
 	
 	public static void showWarningMessage(String title, String header, String context) {

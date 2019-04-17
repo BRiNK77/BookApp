@@ -228,3 +228,125 @@
 18:47:39.470 INFO  controller.DetailedController : Changes fully saved.
 18:47:43.991 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
 18:48:03.982 INFO  controller.Main : Closing connection to DB...
+18:44:34.241 INFO  controller.Main : Creating Connection with DB...
+18:44:47.250 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+18:45:14.640 INFO  controller.DetailedController : Save button pressed.
+18:45:14.673 INFO  controller.DetailedController : Changes made to title The Hobbit to The Hobbit
+18:45:31.976 INFO  controller.DetailedController : Changes fully saved.
+18:45:46.226 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+18:47:18.466 INFO  controller.AuditViewController : Back button pressed.
+18:49:38.242 INFO  controller.Main : Closing connection to DB...
+14:37:12.651 INFO  controller.Main : Creating Connection with DB...
+14:37:20.756 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+14:38:04.484 INFO  controller.AuditViewController : Back button pressed.
+14:38:21.659 INFO  controller.DetailedController : Save button pressed.
+14:38:21.729 INFO  controller.DetailedController : Changes made to publisher 2 to 1
+14:38:30.665 INFO  controller.DetailedController : Changes fully saved.
+14:38:35.883 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+14:39:23.611 INFO  controller.DetailedController : Save button pressed.
+14:39:23.650 INFO  controller.DetailedController : Changes made to publisher 1 to 2
+14:39:26.232 INFO  controller.DetailedController : Changes fully saved.
+14:39:28.572 INFO  controller.Main : Closing connection to DB...
+14:51:29.674 INFO  controller.Main : Creating Connection with DB...
+14:51:35.652 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+14:51:58.028 INFO  controller.DetailedController : Save button pressed.
+14:51:58.143 INFO  controller.DetailedController : Changes made to summary We are going on an adventure. to We are going on an adventure!
+14:52:14.347 INFO  controller.DetailedController : Changes fully saved.
+14:52:17.292 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+15:03:29.070 INFO  controller.Main : Closing connection to DB...
+15:03:43.426 INFO  controller.Main : Creating Connection with DB...
+15:03:50.269 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+15:04:11.909 INFO  controller.Main : Closing connection to DB...
+15:04:29.805 INFO  controller.Main : Creating Connection with DB...
+15:04:35.150 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+15:04:52.565 INFO  controller.DetailedController : Save button pressed.
+15:04:52.627 INFO  controller.DetailedController : Changes made to summary We are going on an adventure! to We are going on an adventure.
+15:04:52.744 INFO  controller.DetailedController : Changes made to publisher 2 to 1
+15:05:43.961 ERROR controller.DetailedController : Could not save: com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException: Lock wait timeout exceeded; try restarting transaction
+15:05:43.963 INFO  controller.DetailedController : Changes not saved.
+15:06:01.485 INFO  controller.DetailedController : Save button pressed.
+15:06:01.523 INFO  controller.DetailedController : No changes made.
+15:08:25.857 INFO  controller.Main : Creating Connection with DB...
+15:08:31.349 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+15:08:46.741 INFO  controller.DetailedController : Save button pressed.
+15:08:46.810 INFO  controller.DetailedController : Changes made to summary We are going on an adventure! to We are going on an adventure.
+15:08:46.966 INFO  controller.DetailedController : Changes made to publisher 2 to 1
+15:09:38.175 ERROR controller.DetailedController : Could not save: com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException: Lock wait timeout exceeded; try restarting transaction
+15:09:38.176 INFO  controller.DetailedController : Changes not saved.
+15:10:12.549 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+15:10:18.813 INFO  controller.DetailedController : Save button pressed.
+15:10:18.845 INFO  controller.DetailedController : Changes made to publisher 2 to 1
+15:11:10.050 ERROR controller.DetailedController : Could not save: com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException: Lock wait timeout exceeded; try restarting transaction
+15:11:10.052 INFO  controller.DetailedController : Changes not saved.
+15:11:37.341 INFO  controller.DetailedController : Save button pressed.
+15:11:37.376 INFO  controller.DetailedController : No changes made.
+15:12:28.440 ERROR controller.DetailedController : Could not save: com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException: Lock wait timeout exceeded; try restarting transaction
+15:12:28.442 INFO  controller.DetailedController : Changes not saved.
+15:13:44.565 INFO  controller.Main : Closing connection to DB...
+15:31:19.808 INFO  controller.Main : Creating Connection with DB...
+15:31:24.295 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+15:31:30.254 INFO  controller.DetailedController : Save button pressed.
+15:31:30.308 INFO  controller.DetailedController : Changes made to publisher 2 to 1
+15:32:21.640 ERROR controller.DetailedController : Could not save: com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException: Lock wait timeout exceeded; try restarting transaction
+15:32:21.642 INFO  controller.DetailedController : Changes not saved.
+15:35:05.586 INFO  controller.Main : Closing connection to DB...
+15:39:28.711 INFO  controller.Main : Creating Connection with DB...
+15:39:33.751 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+15:39:48.446 INFO  controller.AuditViewController : Back button pressed.
+15:40:07.375 INFO  controller.Main : Closing connection to DB...
+15:41:56.814 INFO  controller.Main : Creating Connection with DB...
+15:42:01.768 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+15:42:19.711 INFO  controller.AuditViewController : Back button pressed.
+15:42:24.519 INFO  controller.Main : Closing connection to DB...
+15:53:14.225 INFO  controller.Main : Creating Connection with DB...
+15:53:20.952 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+15:54:06.215 INFO  controller.AuditViewController : Back button pressed.
+15:54:14.663 INFO  controller.DetailedController : Save button pressed.
+15:54:14.736 INFO  controller.DetailedController : Changes made to publisher 2 to 1
+15:55:05.951 ERROR controller.DetailedController : Could not save: com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException: Lock wait timeout exceeded; try restarting transaction
+15:55:05.953 INFO  controller.DetailedController : Changes not saved.
+16:00:25.760 INFO  controller.Main : Closing connection to DB...
+16:00:30.240 INFO  controller.Main : Creating Connection with DB...
+16:00:34.656 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+16:00:38.736 INFO  controller.DetailedController : Save button pressed.
+16:00:38.793 INFO  controller.DetailedController : Changes made to publisher 2 to 1
+16:00:38.987 ERROR controller.DetailedController : Could not save: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where id = 1 set title = 'The Hobbit', summary = 'We are going on an adventure!'' at line 1
+16:00:38.989 INFO  controller.DetailedController : Changes not saved.
+16:01:13.448 INFO  controller.Main : Closing connection to DB...
+16:03:25.596 INFO  controller.Main : Creating Connection with DB...
+16:03:30.673 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+16:03:33.352 INFO  controller.DetailedController : Save button pressed.
+16:03:33.430 INFO  controller.DetailedController : Changes made to publisher 2 to 1
+16:04:24.649 ERROR controller.DetailedController : Could not save: com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException: Lock wait timeout exceeded; try restarting transaction
+16:04:24.651 INFO  controller.DetailedController : Changes not saved.
+16:05:32.136 INFO  controller.DetailedController : Save button pressed.
+16:05:32.177 INFO  controller.DetailedController : Changes made to summary We are going on an adventure! to We are going on an adventure.
+16:05:32.297 INFO  controller.DetailedController : No changes made.
+17:03:57.268 INFO  controller.Main : Creating Connection with DB...
+17:04:02.004 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+17:04:08.368 INFO  controller.DetailedController : Save button pressed.
+17:04:08.399 INFO  controller.DetailedController : Changes made to publisher 1 to 2
+17:04:12.823 INFO  controller.DetailedController : Changes fully saved.
+17:04:17.948 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+17:05:02.184 INFO  controller.AuditViewController : Back button pressed.
+17:05:16.123 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+17:05:18.524 INFO  controller.Main : Closing connection to DB...
+17:34:16.732 INFO  controller.Main : Creating Connection with DB...
+17:34:20.959 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+17:34:31.547 INFO  controller.DetailedController : Save button pressed.
+17:34:31.578 INFO  controller.DetailedController : Changes made to summary We are going on an adventure! to We are going on an adventure.
+17:34:31.609 INFO  controller.DetailedController : Changes made to publisher 1 to 2
+17:34:34.893 INFO  controller.DetailedController : Changes fully saved.
+17:34:38.299 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+17:35:04.961 INFO  controller.AuditViewController : Back button pressed.
+17:35:55.822 INFO  controller.AuditViewController : Back button pressed.
+17:38:35.783 INFO  controller.DetailedController : Save button pressed.
+17:38:35.789 INFO  controller.DetailedController : Changes made to publisher 2 to 1
+17:38:37.135 INFO  controller.DetailedController : Changes fully saved.
+17:42:48.585 INFO  controller.Main : Closing connection to DB...
+17:59:55.995 INFO  controller.Main : Creating Connection with DB...
+18:00:02.850 INFO  controller.BookListController$1 : Book title pressed. 1 : The Hobbit     Year: 1937   ISBN: ABCD1234
+18:00:10.706 INFO  controller.DetailedController : Save button pressed.
+18:00:10.732 INFO  controller.DetailedController : Changes made to publisher 2 to 1
+18:00:12.017 INFO  controller.DetailedController : Changes fully saved.
+18:04:47.209 INFO  controller.Main : Closing connection to DB...

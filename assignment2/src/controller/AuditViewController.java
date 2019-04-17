@@ -11,13 +11,14 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.input.MouseEvent;
 import model.AuditTrailModel;
 import model.BookModel;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 
+
+// controller for the audit view
 public class AuditViewController implements Initializable, MyController {
 	
 	private static Logger logger = LogManager.getLogger(AuditViewController.class);
@@ -25,24 +26,29 @@ public class AuditViewController implements Initializable, MyController {
 	
 	@FXML private ListView<AuditTrailModel> listviewAudits;
 	@FXML private Button backB;
-	
+	@FXML private Label title;
 	private List<AuditTrailModel> listData;
+	private BookModel theBook;
 	
-	private AuditViewController(List<AuditTrailModel> audits) {
+	public AuditViewController(List<AuditTrailModel> audits, BookModel book) {
 		this.listData = audits;
+		this.theBook =  book;
 	}
 	
+	// handles back button actions
 	@FXML void backButtonPressed(ActionEvent event) {
 		if(event.getSource() == backB) {
-			logger.info("Delete button pressed.");
+			logger.info("Back button pressed.");
+			AppController.getInstance().switchView( ViewType.VIEW2, this.theBook); // needs more
 			
-			AppController.getInstance().switchView( ViewType.VIEW2, null); // needs more
-			
-	
 		}
 	}
 	
+	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
+		title.setText("Audit Trail for " + this.theBook.getTitle());
+		
 		ObservableList<AuditTrailModel> audits = listviewAudits.getItems();
 		for(AuditTrailModel audit: listData) {
 			audits.add(audit);
