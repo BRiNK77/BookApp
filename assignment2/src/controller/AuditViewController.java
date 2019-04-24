@@ -17,45 +17,46 @@ import model.AuditTrailModel;
 import model.BookModel;
 import javafx.event.ActionEvent;
 
-
 // controller for the audit view
 public class AuditViewController implements Initializable, MyController {
-	
+
 	private static Logger logger = LogManager.getLogger(AuditViewController.class);
-	
-	
-	@FXML private ListView<AuditTrailModel> listviewAudits;
-	@FXML private Button backB;
-	@FXML private Label title;
+
+	@FXML
+	private ListView<AuditTrailModel> listviewAudits;
+	@FXML
+	private Button backB;
+	@FXML
+	private Label title;
 	private List<AuditTrailModel> listData;
 	private BookModel theBook;
-	
+
 	public AuditViewController(List<AuditTrailModel> audits, BookModel book) {
 		this.listData = audits;
-		this.theBook =  book;
+		this.theBook = book;
 	}
-	
+
 	// handles back button actions
-	@FXML void backButtonPressed(ActionEvent event) {
-		if(event.getSource() == backB) {
+	@FXML
+	void backButtonPressed(ActionEvent event) {
+		if (event.getSource() == backB) {
 			logger.info("Back button pressed.");
-			AppController.getInstance().switchView( ViewType.VIEW2, this.theBook); // needs more
-			
+			AppController.getInstance().switchView(ViewType.VIEW2, this.theBook); // needs more
+
 		}
 	}
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+
 		title.setText("Audit Trail for " + this.theBook.getTitle());
-		
+
 		ObservableList<AuditTrailModel> audits = listviewAudits.getItems();
-		for(AuditTrailModel audit: listData) {
+		for (AuditTrailModel audit : listData) {
 			audits.add(audit);
-			
+
 		}
-		
-		
+
 	}
-	
+
 }

@@ -19,57 +19,59 @@ import javafx.event.EventHandler;
 
 // controller for the book list view
 public class BookListController implements Initializable, MyController {
-	
+
 	private static Logger logger = LogManager.getLogger(BookListController.class);
-	
-	@FXML private ListView<BookModel> listviewBooks;
-	@FXML private Button deleteB;
-	
+
+	@FXML
+	private ListView<BookModel> listviewBooks;
+	@FXML
+	private Button deleteB;
+
 	private List<BookModel> listData;
 
 	public BookListController(List<BookModel> books) {
 		this.listData = books;
 	}
-	
+
 	// handles delete button action
-	@FXML void deleteButtonPressed(ActionEvent event) {
-		if(event.getSource() == deleteB) {
+	@FXML
+	void deleteButtonPressed(ActionEvent event) {
+		if (event.getSource() == deleteB) {
 			logger.info("Delete button pressed.");
 			BookModel selected = listviewBooks.getSelectionModel().getSelectedItem();
-			
+
 			try {
 				BookGateway.deleteBook(selected);
 			} catch (GatewayException e) {
 				e.printStackTrace();
 			}
-			AppController.getInstance().switchView( ViewType.VIEW1, null);
-			
-	
+			AppController.getInstance().switchView(ViewType.VIEW1, null);
+
 		}
 	}
-	
+
 	// sets up the list with given data
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-	
+
 		ObservableList<BookModel> books = listviewBooks.getItems();
-		for(BookModel book: listData) {
+		for (BookModel book : listData) {
 			books.add(book);
 		}
-		
+
 		listviewBooks.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				if(event.getClickCount() == 2 ) {
-					
+				if (event.getClickCount() == 2) {
+
 					BookModel selected = listviewBooks.getSelectionModel().getSelectedItem();
 					logger.info("Book title pressed. " + selected);
-					AppController.getInstance().switchView(ViewType.VIEW2, selected); 
-					
+					AppController.getInstance().switchView(ViewType.VIEW2, selected);
+
 				}
-				
-			}	
+
+			}
 		});
-		
-	} // end initialize 
-} // end list controller 
+
+	} // end initialize
+} // end list controller
