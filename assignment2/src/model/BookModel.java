@@ -72,7 +72,7 @@ public class BookModel {
 		return list;
 	}
 
-	public ObservableList<AuthorBookModel> getAuthors() throws GatewayException{
+	public List<AuthorBookModel> getAuthors() throws GatewayException{
 		return BookGateway.getAuthors(this.ID); // returns list of author_books
 	}
 	

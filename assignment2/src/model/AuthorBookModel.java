@@ -49,9 +49,25 @@ public class AuthorBookModel {
 			}
 		}
 	}
-
+	public boolean isValidAuthor(AuthorModel author) {
+		if(author.getID() == 0)
+			return false;
+		return true;
+	}
+	
+	public boolean isValidBook(BookModel book) {
+		if(book.getID() == 0)
+			return false;
+		return true;
+	}
+	
+	public boolean isValidRoyalty(int royalty) {
+		if (royalty < 0f || royalty > 100f)
+			return false;
+		return true;
+	}
 	public String toString() {
-		return this.author.getFirst() + " " + this.author.getLast();
+		return this.author.getFirst() + " " + this.author.getLast() + "     " + this.royalty/1000 + "%";
 	}
 
 	public boolean getNewRecord() {
@@ -75,7 +91,7 @@ public class AuthorBookModel {
 	}
 
 	public int getRoyalty() {
-		return royalty;
+		return royalty/1000;
 	}
 
 	public void setRoyalty(int royalty) {

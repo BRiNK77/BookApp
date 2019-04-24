@@ -324,8 +324,8 @@ public class BookGateway {
 		return author;
 	}
 	
-	public  static ObservableList<AuthorBookModel> getAuthors(int id) throws GatewayException {
-		ObservableList<AuthorBookModel> list = FXCollections.observableArrayList();
+	public static List<AuthorBookModel> getAuthors(int id) throws GatewayException {
+		List<AuthorBookModel> list = FXCollections.observableArrayList();
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement("select * from author_book where book_id=?");

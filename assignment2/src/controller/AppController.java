@@ -121,8 +121,8 @@ public class AppController implements Initializable {
 			break;
 			
 		case VIEW5:
-			viewString = "/View/AuthorView.fxml";
-			controller = new AuthorViewController((AuthorModel) data);
+			viewString = "/View/AuthorBookView.fxml";
+			controller = new AuthorBookController((AuthorBookModel) data);
 			break;
 		}
 
