@@ -21,13 +21,13 @@ import model.AuthorModel;
 import model.BookModel;
 import javafx.scene.control.TextField;
 
-public class AuthorBookController implements Initializable, MyController {
+public class NewAuthorBookController implements Initializable, MyController {
 
 	private static Logger logger = LogManager.getLogger();
 	private AuthorBookModel authorBook;
 
 	@FXML
-	private ComboBox<AuthorBookModel> AuthorList;
+	private ComboBox<AuthorModel> AuthorList;
 	@FXML
 	private ComboBox<BookModel> BookList;
 	@FXML
@@ -35,15 +35,15 @@ public class AuthorBookController implements Initializable, MyController {
 	@FXML
 	private Button saveB, backB;
 
-	public List<AuthorBookModel> authors;
+	public List<AuthorModel> authors;
 	public List<BookModel> books;
 
-	public AuthorBookController(AuthorBookModel arg) {
+	public NewAuthorBookController(AuthorBookModel arg) {
 		this.authorBook = arg;
-		AuthorList = new ComboBox<AuthorBookModel>();
+		AuthorList = new ComboBox<AuthorModel>();
 		BookList = new ComboBox<BookModel>();
 		try {
-			authors = BookGateway.getAuthors(arg.getBook().getID());
+			authors = BookGateway.getAllAuthors();
 		} catch (GatewayException e) {
 			e.printStackTrace();
 		}
@@ -65,7 +65,13 @@ public class AuthorBookController implements Initializable, MyController {
 */
 	@FXML
 	void save() {
+		
+		authorBook.setAuthor(AuthorList.getValue());
+		authorBook.setBook(BookList.getValue());
+		authorBook.setRoyalty(Integer.parseInt(royalty.getText())); 
+		
 		if (!authorBook.isValidAuthor(authorBook.getAuthor())) {
+			
 			logger.error("Invalid Author " + authorBook.getAuthor().getFirst() + " "
 					+ authorBook.getAuthor().getLast());
 			AlertHelper.showWarningMessage("Error", "Author Error",
@@ -84,8 +90,7 @@ public class AuthorBookController implements Initializable, MyController {
 					"There seems to be an error with your royalty please double check and try again");
 			return;
 		}
-		authorBook.setAuthor(AuthorList.getValue().getAuthor());
-		authorBook.setBook(BookList.getValue());
+		System.out.println(authorBook);
 		authorBook.saveAuthorBook();
 	}
 
@@ -110,7 +115,7 @@ public class AuthorBookController implements Initializable, MyController {
 		//royalty.textProperty().bindBidirectional(authorBook.getRoyaltyProperty(), new NumberStringConverter());
 		//System.out.println(authors);
 		AuthorList.getItems().addAll(authors);
-		AuthorList.setValue(this.authorBook);
+		AuthorList.setValue(this.authorBook.getAuthor());
 		
 		BookList.getItems().addAll(books);
 		BookList.setValue(this.authorBook.getBook());

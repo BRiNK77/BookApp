@@ -124,6 +124,10 @@ public class AppController implements Initializable {
 			viewString = "/View/AuthorBookView.fxml";
 			controller = new AuthorBookController((AuthorBookModel) data);
 			break;
+			
+		case VIEW6:
+			viewString = "/View/NewAuthorBook.fxml";
+			controller = new NewAuthorBookController((AuthorBookModel) data);
 		}
 
 		// tries to set the new view with fxml loader

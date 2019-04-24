@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import model.AuditTrailModel;
 import model.AuthorBookModel;
 import model.PublisherModel;
 
@@ -35,13 +36,15 @@ public class AuthorBookGateway {
 			
 		public static void deleteAuthorBook(AuthorBookModel authorBook) throws GatewayException {
 			PreparedStatement st = null;
+			AuditTrailModel audit;
 			try {
 				String sql = "DELETE FROM author_book WHERE author_id=? AND book_id=?";
 				st = conn.prepareStatement(sql);
 				st.setInt(1, authorBook.getAuthor().getID());
 				st.setInt(2, authorBook.getBook().getID());
 				st.executeUpdate();
-				BookGateway.bookAuthorDeleteAudit(authorBook);
+				audit =  new AuditTrailModel(authorBook.getBook().getID() ,"Inserting new author book" + authorBook);
+				BookGateway.insertAudit(audit);
 			}
 			catch (SQLException e) {
 				throw new GatewayException(e);
@@ -57,6 +60,8 @@ public class AuthorBookGateway {
 		
 		public static void insertAuthorBook(AuthorBookModel authorBook ) {
 			PreparedStatement st = null;
+			AuditTrailModel audit;
+			
 			try {
 				String sql = "insert into author_book (author_id,book_id,royalty) values (?,?,?)";
 				st = conn.prepareStatement(sql);
@@ -64,7 +69,8 @@ public class AuthorBookGateway {
 				st.setInt(2, authorBook.getBook().getID());
 				st.setFloat(3, ((float) (authorBook.getRoyalty()) / 100000));
 				st.executeUpdate();
-				BookGateway.bookAuthorInsertAudit(authorBook);
+				audit =  new AuditTrailModel(authorBook.getBook().getID() ,"Inserting new author book" + authorBook);
+				BookGateway.insertAudit(audit);
 			}
 			catch (SQLException e) {
 				logger.error(e);
@@ -82,6 +88,7 @@ public class AuthorBookGateway {
 		public static void updateAuthorBook(AuthorBookModel authorBook) throws GatewayException {
 			AuthorBookModel old = authorBook;
 			PreparedStatement st = null;
+			AuditTrailModel audit;
 			try {
 				String sql = " update author_book set royalty = ? where author_id=? AND book_id=?";
 				st = conn.prepareStatement(sql);
@@ -89,7 +96,8 @@ public class AuthorBookGateway {
 				st.setInt(2, authorBook.getAuthor().getID());
 				st.setInt(3, authorBook.getBook().getID());
 				st.executeUpdate();
-				BookGateway.bookAuthorUpdateAudit(authorBook, old);
+				audit =  new AuditTrailModel(authorBook.getBook().getID() ,"Inserting new author book" + authorBook);
+				BookGateway.insertAudit(audit);
 			}
 			catch (SQLException e) {
 				throw new GatewayException(e);

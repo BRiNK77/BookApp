@@ -350,6 +350,37 @@ public class BookGateway {
 		}
 		return list;
 	}
+	
+	public static List<AuthorModel> getAllAuthors() throws GatewayException{
+		List<AuthorModel> list = FXCollections.observableArrayList();
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("select * from authors");
+			ResultSet rs = st.executeQuery();
+			while(rs.next()){
+				AuthorModel author = new AuthorModel(rs.getString("first_name"), rs.getString("last_name"));
+				author.setID(rs.getInt("id"));
+				author.setGender(rs.getString("gender"));
+				author.setWebsite(rs.getString("web_site"));
+				//convert old Date object to a LocalDate
+				if(rs.getString("dob") != null)
+					author.setDob(LocalDate.parse(rs.getString("dob")));
+				list.add(author);
+			}
+		} catch (Exception sql) {
+			throw new GatewayException(sql);
+		} finally {
+			try {
+				st.close();
+			}
+			catch (Exception e) {
+				logger.error(e);
+				e.printStackTrace();
+		}
+		}
+		return list;
+	}
+	
 	// gets the publisher for book using book id
 	public static PublisherModel getPublisherbyId(int id) {
 		PreparedStatement st = null;

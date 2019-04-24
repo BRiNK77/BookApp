@@ -143,7 +143,7 @@ public class DetailedController implements Initializable, MyController {
 	void addAuthor() {
 		AuthorBookModel newAuthBook = new AuthorBookModel();
 		if(aBook.getID() != 0) {
-			AppController.getInstance().switchView(ViewType.VIEW5, newAuthBook);
+			AppController.getInstance().switchView(ViewType.VIEW6, newAuthBook);
 			//AppController.getInstance().changeView(AppController.AUTHOR_BOOK_NEW, new AuthorBook(new Author(), book,0,true,conn));
 		}else {
 			AlertHelper.showWarningMessage("Error", "Unsaved Book", "Please save the book before adding authors");

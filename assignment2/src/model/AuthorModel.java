@@ -16,6 +16,7 @@ public class AuthorModel {
 	private String gender;
 	private String website;
 	private LocalDateTime lastModified;
+	
 	public AuthorModel() {
 
 		first = "First name here...";

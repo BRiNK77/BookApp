@@ -39,7 +39,9 @@ public class AuthorBookModel {
 
 	public void saveAuthorBook() {
 		if (getNewRecord()) {
+			AuditTrailModel audit = new AuditTrailModel(this.getBook().getID(), "New Author Book added.");
 			AuthorBookGateway.insertAuthorBook(this);
+			BookGateway.insertAudit(audit);
 		} else {
 			try {
 				AuthorBookGateway.updateAuthorBook(this);

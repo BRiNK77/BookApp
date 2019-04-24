@@ -11,7 +11,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane layoutX="14.0" layoutY="14.0" prefHeight="224.0" prefWidth="519.0">
+      <GridPane layoutX="14.0" layoutY="31.0" prefHeight="246.0" prefWidth="529.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -27,11 +27,10 @@
             <Label text="Royalty" GridPane.rowIndex="2" />
             <ComboBox fx:id="AuthorList" prefWidth="150.0" GridPane.columnIndex="1" />
             <ComboBox fx:id="BookList" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="royalty" prefHeight="26.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <ComboBox fx:id="AuthorList" prefWidth="150.0" GridPane.columnIndex="1" />
+            <TextField fx:id="royalty" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Button fx:id="saveB" layoutX="29.0" layoutY="266.0" mnemonicParsing="false" onAction="#save" text="Save " />
-      <Button fx:id="backB" layoutX="102.0" layoutY="266.0" mnemonicParsing="false" onAction="#back" text="Back" />
+      <Button fx:id="saveB" layoutX="30.0" layoutY="294.0" mnemonicParsing="false" onAction="#save" text="Save" />
+      <Button fx:id="backB" layoutX="101.0" layoutY="294.0" mnemonicParsing="false" onAction="#back" text="Back" />
    </children>
 </Pane>
