@@ -68,7 +68,7 @@ public class NewAuthorBookController implements Initializable, MyController {
 		
 		authorBook.setAuthor(AuthorList.getValue());
 		authorBook.setBook(BookList.getValue());
-		authorBook.setRoyalty(Integer.parseInt(royalty.getText())); 
+		authorBook.setRoyalty(Integer.parseInt(royalty.getText()) * 1000); 
 		
 		if (!authorBook.isValidAuthor(authorBook.getAuthor())) {
 			
@@ -90,7 +90,7 @@ public class NewAuthorBookController implements Initializable, MyController {
 					"There seems to be an error with your royalty please double check and try again");
 			return;
 		}
-		System.out.println(authorBook);
+		System.out.println(authorBook + "NewAuthorBookController");
 		authorBook.saveAuthorBook();
 	}
 

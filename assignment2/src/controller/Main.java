@@ -55,7 +55,10 @@ public class Main extends Application {
 		ds.setPassword("Ok6rP1rmmDF7EjyLILwq");
 		Connection connection = ds.getConnection();
 
+		// sets the active connection to necessary gateways
 		BookGateway.getInstance().setConnection(connection);
+		AuthorBookGateway.getInstance().setConnection(connection);
+		
 	}
 
 	// on app close, will close the connection to database

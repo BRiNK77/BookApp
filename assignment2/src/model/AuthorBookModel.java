@@ -23,10 +23,12 @@ public class AuthorBookModel {
 	}
 
 	public AuthorBookModel(AuthorModel anAuthor, BookModel abook, int roy) {
-		author = anAuthor;
-		book = abook;
-		royalty = roy;
-		newRecord = false;
+		this();
+		
+		this.author = anAuthor;
+		this.book = abook;
+		this.royalty = roy;
+		this.newRecord = false;
 
 	}
 	
@@ -40,6 +42,7 @@ public class AuthorBookModel {
 	public void saveAuthorBook() {
 		if (getNewRecord()) {
 			AuditTrailModel audit = new AuditTrailModel(this.getBook().getID(), "New Author Book added.");
+			System.out.println(this + "authorBookModel");
 			AuthorBookGateway.insertAuthorBook(this);
 			BookGateway.insertAudit(audit);
 		} else {
@@ -64,7 +67,7 @@ public class AuthorBookModel {
 	}
 	
 	public boolean isValidRoyalty(int royalty) {
-		if (royalty < 0f || royalty > 100f)
+		if (royalty < 0f || royalty > 100000f)
 			return false;
 		return true;
 	}
@@ -93,7 +96,7 @@ public class AuthorBookModel {
 	}
 
 	public int getRoyalty() {
-		return royalty/1000;
+		return royalty;
 	}
 
 	public void setRoyalty(int royalty) {

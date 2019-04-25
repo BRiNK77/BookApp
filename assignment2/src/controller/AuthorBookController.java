@@ -50,19 +50,7 @@ public class AuthorBookController implements Initializable, MyController {
 		books = BookGateway.getBooks();
 
 	}
-	/*
-	public AuthorBookController() {
-		authorBook = new AuthorBookModel();
-		AuthorList = new ComboBox<AuthorBookModel>();
-		BookList = new ComboBox<BookModel>();
-		try {
-			authors = BookGateway.getAllAuthors();
-		} catch (GatewayException e) {
-			e.printStackTrace();
-		}
-		books = BookGateway.getBooks();
-	}
-*/
+	
 	@FXML
 	void save() {
 		if (!authorBook.isValidAuthor(authorBook.getAuthor())) {
@@ -84,9 +72,11 @@ public class AuthorBookController implements Initializable, MyController {
 					"There seems to be an error with your royalty please double check and try again");
 			return;
 		}
-		authorBook.setAuthor(AuthorList.getValue().getAuthor());
-		authorBook.setBook(BookList.getValue());
-		authorBook.saveAuthorBook();
+		this.authorBook.setAuthor(AuthorList.getValue().getAuthor());
+		this.authorBook.setBook(BookList.getValue());
+		this.authorBook.setRoyalty(Integer.parseInt(royalty.getText()) * 1000);
+		System.out.println(authorBook + "AuthorBookController");
+		this.authorBook.saveAuthorBook();
 	}
 
 	@FXML
@@ -115,7 +105,7 @@ public class AuthorBookController implements Initializable, MyController {
 		BookList.getItems().addAll(books);
 		BookList.setValue(this.authorBook.getBook());
 		
-		royalty.setText(Integer.toString(this.authorBook.getRoyalty()));
+		royalty.setText(Integer.toString(this.authorBook.getRoyalty() / 1000));
 		
 		
 		

@@ -86,24 +86,26 @@ public class AuthorBookGateway {
 		}
 		
 		public static void updateAuthorBook(AuthorBookModel authorBook) throws GatewayException {
-			AuthorBookModel old = authorBook;
+			System.out.println(authorBook + "authorBookGateway");
 			PreparedStatement st = null;
 			AuditTrailModel audit;
 			try {
 				String sql = " update author_book set royalty = ? where author_id=? AND book_id=?";
 				st = conn.prepareStatement(sql);
-				st.setFloat(1, ((float) (authorBook.getRoyalty()) / 100000));
+				st.setFloat(1, ((float) (authorBook.getRoyalty()) / 1000000));
 				st.setInt(2, authorBook.getAuthor().getID());
 				st.setInt(3, authorBook.getBook().getID());
 				st.executeUpdate();
-				audit =  new AuditTrailModel(authorBook.getBook().getID() ,"Inserting new author book" + authorBook);
+				audit =  new AuditTrailModel(authorBook.getBook().getID() ,"Updating author book" + authorBook);
 				BookGateway.insertAudit(audit);
 			}
 			catch (SQLException e) {
 				throw new GatewayException(e);
 			} finally {
 				try {
-					st.close();
+					if(st!= null) {
+						st.close();
+					}
 				} catch (SQLException e) {
 					logger.error(e);
 					e.printStackTrace();
