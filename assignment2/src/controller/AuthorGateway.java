@@ -18,14 +18,22 @@ public class AuthorGateway{
 		
 	}
 	
-	private static AuthorBookGateway instance = null;
-	private static Logger logger = LogManager.getLogger(AuthorBookGateway.class);
+	private static AuthorGateway instance = null;
+	private static Logger logger = LogManager.getLogger(AuthorGateway.class);
 	private static Connection conn;
 
+	public static AuthorGateway getInstance() {
+		if (instance == null) {
+			instance = new AuthorGateway();
+
+		} // end if
+		return instance;
+	}
+	
 	public static void deleteAuthor(AuthorModel author) throws GatewayException {
 		PreparedStatement st = null;
 		try {
-			String sql = "delete from author where id = ? ";
+			String sql = "delete from authors where id = ? ";
 			st = conn.prepareStatement(sql);
 			st.setInt(1, author.getID());
 			st.executeUpdate();
@@ -45,7 +53,7 @@ public class AuthorGateway{
 	public static void insertAuthor(AuthorModel author) throws GatewayException {
 		PreparedStatement st = null;
 		try {
-			String sql = "insert into author "
+			String sql = "insert into authors "
 					+ " (first_name, last_name, gender, web_site, dob) "
 					+ " values (?, ?, ?, ?, ?) ";
 			st = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -80,12 +88,9 @@ public class AuthorGateway{
 
 	public static void updateAuthor(AuthorModel author) throws GatewayException {
 		PreparedStatement st = null;
-		LocalDateTime old = getAuthorLastModified(author);
-		AuthorModel oldAuthor = getAuthorById(author.getID()) ;
-		AuthorModel updateAuthor;
-		if (old.equals(author.getLastModified()) ) {
+		
 			try {
-				String sql = "update author "
+				String sql = "update authors "
 						+ " set first_name = ?, last_name = ?, gender = ?, web_site = ?, dob = ? "
 						+ " where id = ? ";
 				st = conn.prepareStatement(sql);
@@ -96,8 +101,6 @@ public class AuthorGateway{
 				st.setString(5, author.getDob().toString());
 				st.setInt(6, author.getID());
 				st.executeUpdate();
-				updateAuthor = getAuthorById(author.getID());
-				author.setLastModified(updateAuthor.getLastModified());
 			} catch (SQLException e) {
 				throw new GatewayException(e);
 			} finally {
@@ -109,17 +112,12 @@ public class AuthorGateway{
 				}
 			}
 		}
-		else {
-			AlertHelper.showWarningMessage("Oh crap!", "Out of Date reference", "It seems like the author youre tring to update is not up to date! Please go back to the Author List and fetch the author again!");
-		}
-		//updateAudit(oldAuthor);
-	}
 
 	public static AuthorModel getAuthorById(int id) throws GatewayException {
 		AuthorModel author = null;
 		PreparedStatement st = null;
 		try {
-			st = conn.prepareStatement("select * from author where id = ?");
+			st = conn.prepareStatement("select * from authors where id = ?");
 			st.setInt(1, id);
 			ResultSet rs = st.executeQuery();
 			rs.next();
@@ -144,11 +142,12 @@ public class AuthorGateway{
 		return author;
 	}
 	
+	/*
 	public static LocalDateTime getAuthorLastModified(AuthorModel author) throws GatewayException {
 		PreparedStatement st = null;
 		LocalDateTime old = null; 
 		try {
-			st = conn.prepareStatement("select * from author where id = ?");
+			st = conn.prepareStatement("select * from authors where id = ?");
 			st.setInt(1, author.getID());
 			ResultSet rs = st.executeQuery();
 			rs.next();
@@ -165,5 +164,23 @@ public class AuthorGateway{
 			}
 		}		
 		return old;
+	}
+	*/
+	public Connection getConnection() {
+		return conn;
+	}
+
+	public void setConnection(Connection connection) {
+		AuthorGateway.conn = connection;
+	}
+
+	public void close() {
+		if (conn != null) {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

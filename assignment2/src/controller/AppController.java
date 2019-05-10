@@ -21,7 +21,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import controller.BookGateway;
-import controller.AuthorViewController;
+import controller.AuthorListController;
 import model.AuditTrailModel;
 import model.AuthorBookModel;
 import model.AuthorModel;
@@ -58,6 +58,10 @@ public class AppController implements Initializable {
 	private MenuItem mList;
 	@FXML
 	private MenuItem mAdd;
+	@FXML
+	private MenuItem mAddA;
+	@FXML
+	private MenuItem mlistA;
 
 	// method to handle view switching on single screen
 	public boolean switchView(ViewType viewType, Object data) {
@@ -128,6 +132,28 @@ public class AppController implements Initializable {
 		case VIEW6:
 			viewString = "/View/NewAuthorBook.fxml";
 			controller = new NewAuthorBookController((AuthorBookModel) data);
+			break;
+			
+		case VIEW7:
+			AuthorModel author = new AuthorModel();
+			viewString = "/View/AuthorView.fxml";
+			controller = new AuthorController(author);
+			break;
+			
+		case VIEW8:
+			List<AuthorModel> authors = null;
+			try {
+				authors = BookGateway.getAllAuthors();
+			} catch (GatewayException e1) {
+				e1.printStackTrace();
+			}
+			viewString = "/View/AuthorListView.fxml";
+			controller = new AuthorListController(authors);
+			break;
+			
+		case VIEW9:
+			viewString = "/View/AuthorView.fxml";
+			controller = new AuthorController((AuthorModel) data);
 		}
 
 		// tries to set the new view with fxml loader
@@ -198,6 +224,11 @@ public class AppController implements Initializable {
 		} else if (event.getSource() == mAdd) {
 			switchView(ViewType.VIEW3, null);
 			return;
+		} else if (event.getSource() == mAddA) {
+			switchView(ViewType.VIEW7, null);
+		} else if (event.getSource() == mlistA) {
+			
+			switchView(ViewType.VIEW8, null);
 		}
 	}
 

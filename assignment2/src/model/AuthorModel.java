@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import controller.AuthorBookGateway;
 import controller.AuthorGateway;
 import controller.GatewayException;
+import controller.ValidationException;
 
 public class AuthorModel {
 
@@ -15,7 +16,6 @@ public class AuthorModel {
 	private LocalDate dob;
 	private String gender;
 	private String website;
-	private LocalDateTime lastModified;
 	
 	public AuthorModel() {
 
@@ -40,13 +40,13 @@ public class AuthorModel {
 		return true;
 	}
 
-	public boolean isValidFirstName(String firstName) {
+	public boolean isValidFirst(String firstName) {
 		if(firstName == null || firstName.length() < 1 || firstName.length() > 100)
 			return false;
 		return true;
 	}
 
-	public boolean isValidLastName(String lastName) {
+	public boolean isValidLast(String lastName) {
 		if(lastName == null || lastName.length() < 1 || lastName.length() > 100)
 			return false;
 		return true;
@@ -66,12 +66,28 @@ public class AuthorModel {
 		return true;
 	}
 
-	public boolean isValidDateOfBirth(LocalDate dob) {
+	public boolean isValidDob(LocalDate dob) {
 		if(dob == null || !dob.isBefore(LocalDate.now()))
 			return false;
 		return true;
 	}
-	public void save() throws GatewayException {
+	public void save() throws GatewayException, ValidationException {
+		if(!isValidFirst(getFirst())){
+			throw new ValidationException("Invalid First: " + getFirst());
+		}
+		if(!isValidLast(getLast())) {
+			throw new ValidationException("Invalid Last: " + getLast());
+		}
+		if(!isValidGender(getGender())) {
+			throw new ValidationException("Invalid Gender: " + getGender());
+		}
+		if(!isValidWebSite(getWebsite())) {
+			throw new ValidationException("Invalid Website: " + getWebsite());
+		}
+		if(!isValidDob(getDob())) {
+			throw new ValidationException("Invalid Dob: " + getDob());
+		}
+		
 		if(getID() == 0) {
 			AuthorGateway.insertAuthor(this);
 		} else {
@@ -134,14 +150,6 @@ public class AuthorModel {
 
 	public void setWebsite(String website) {
 		this.website = website;
-	}
-
-	public LocalDateTime getLastModified() {
-		return lastModified;
-	}
-
-	public void setLastModified(LocalDateTime lastModified) {
-		this.lastModified = lastModified;
 	}
 
 	

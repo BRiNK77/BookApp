@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" />
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextField fx:id="first" layoutX="151.0" layoutY="92.0" promptText="First here..." />
+      <TextField fx:id="last" layoutX="300.0" layoutY="92.0" promptText="Last here..." />
+      <TextField fx:id="gender" layoutX="226.0" layoutY="161.0" promptText=" Gender here..." />
+      <TextField fx:id="dob" layoutX="226.0" layoutY="200.0" promptText="DOB here..." />
+      <TextField fx:id="website" layoutX="226.0" layoutY="244.0" promptText="Website here..." />
+      <Button fx:id="saveB" layoutX="226.0" layoutY="307.0" mnemonicParsing="false" onAction="#saveButtonPressed" text="Save" />
+      <Button fx:id="backB" layoutX="334.0" layoutY="307.0" mnemonicParsing="false" onAction="#back" text="Back" />
+   </children>
+</AnchorPane>

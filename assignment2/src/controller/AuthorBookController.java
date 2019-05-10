@@ -75,7 +75,6 @@ public class AuthorBookController implements Initializable, MyController {
 		this.authorBook.setAuthor(AuthorList.getValue().getAuthor());
 		this.authorBook.setBook(BookList.getValue());
 		this.authorBook.setRoyalty(Integer.parseInt(royalty.getText()) * 1000);
-		System.out.println(authorBook + "AuthorBookController");
 		this.authorBook.saveAuthorBook();
 	}
 

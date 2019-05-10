@@ -6,14 +6,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
+
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="246.0" layoutY="14.0" text="My Books:">
+      <Label layoutX="230.0" layoutY="52.0" text="My Authors:">
          <font>
-            <Font size="24.0" />
+            <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <ListView fx:id="listviewBooks" layoutX="13.0" layoutY="57.0" prefHeight="323.0" prefWidth="502.0" />
-      <Button fx:id="deleteB" layoutX="521.0" layoutY="188.0" mnemonicParsing="false" onAction="#deleteButtonPressed" text="Delete" />
+      <ListView fx:id="listviewAuthors" layoutX="42.0" layoutY="100.0" prefHeight="261.0" prefWidth="479.0" />
+      <Button fx:id="deleteB" layoutX="528.0" layoutY="200.0" mnemonicParsing="false" onAction="#deleteButtonPressed" text="Delete" />
    </children>
 </AnchorPane>

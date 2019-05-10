@@ -58,6 +58,7 @@ public class Main extends Application {
 		// sets the active connection to necessary gateways
 		BookGateway.getInstance().setConnection(connection);
 		AuthorBookGateway.getInstance().setConnection(connection);
+		AuthorGateway.getInstance().setConnection(connection);
 		
 	}
 
