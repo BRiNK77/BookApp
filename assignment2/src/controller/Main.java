@@ -46,8 +46,8 @@ public class Main extends Application {
 		stage.setScene(new Scene(mainNode)); // sets scene here
 
 		stage.setTitle("Book Organizer"); // sets title of stage
-		stage.setWidth(600);
-		stage.setHeight(500);
+		stage.setWidth(700);
+		stage.setHeight(600);
 		stage.show();
 		AppController.getInstance(0).switchView(ViewType.VIEW10, null);
 		

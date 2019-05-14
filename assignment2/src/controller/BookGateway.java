@@ -519,6 +519,152 @@ public class BookGateway {
 		}
 	} 
 
+	public static List<BookModel> getBooks(int pageNumber, int pageSize) throws GatewayException {
+		List<BookModel> books = FXCollections.observableArrayList();
+		PreparedStatement st = null;
+		PublisherModel publisher;
+		int index = (pageNumber - 1) * pageSize;
+		//int index = pageNumber * pageSize;
+		try {
+			st = conn.prepareStatement("select * from Books limit ?,?");
+			st.setInt(1, index);
+			st.setInt(2, pageSize);
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+
+				BookModel book = new BookModel();
+				book.setTitle(rs.getString("title"));
+				book.setID(rs.getInt("id"));
+				book.setSummary(rs.getString("summary"));
+				book.setYearPublished(rs.getInt("year_published"));
+				publisher = BookGateway.getPublisherbyId(rs.getInt("publisher_id"));
+				book.setPublisher(publisher);
+				book.setISBN(rs.getString("isbn"));
+				if(rs.getString("last_modified") != null) {
+					Timestamp ts = rs.getTimestamp("last_modified");
+					book.setLastModified(ts.toLocalDateTime());
+				
+			}
+				books.add(book);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			throw new GatewayException(e);
+		} finally {
+			try {
+				st.close();
+			} catch (SQLException e) {
+				logger.error(e);
+				e.printStackTrace();
+			}
+		}
+		return books;
+	}
+	public static List<BookModel> searchBooks(String search, int pageNumber, int pageSize) throws GatewayException {
+		List<BookModel> books = FXCollections.observableArrayList();
+		PublisherModel publisher;
+		PreparedStatement st = null;
+		try {
+			int index = (pageNumber - 1) * pageSize;
+			st = conn.prepareStatement("select * from Books where title like '%" + search + "%' limit ?,?");
+			st.setInt(1, index);
+			st.setInt(2, pageSize);
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+
+				BookModel book = new BookModel();
+				book.setTitle(rs.getString("title"));
+				book.setID(rs.getInt("id"));
+				book.setSummary(rs.getString("summary"));
+				book.setYearPublished(rs.getInt("year_published"));
+				publisher = BookGateway.getPublisherbyId(rs.getInt("publisher_id"));
+				book.setPublisher(publisher);
+				book.setISBN(rs.getString("isbn"));
+				if(rs.getString("last_modified") != null) {
+					Timestamp ts = rs.getTimestamp("last_modified");
+					book.setLastModified(ts.toLocalDateTime());
+				}
+				books.add(book);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			throw new GatewayException(e);
+		} finally {
+			try {
+				st.close();
+			} catch (SQLException e) {
+				logger.error(e);
+				e.printStackTrace();
+			}
+		}
+		return books;
+	}
+	public static int  searchBooksLastPage(String search) throws GatewayException {
+		PreparedStatement st = null;
+		int pageNumber = 0;
+		try {
+			st = conn.prepareStatement("select * from Books where title like '" + search + "%'");
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+				pageNumber = rs.getInt(1);
+			}
+			} catch(SQLException e) {
+				throw new GatewayException(e);
+			}finally {
+				try {
+					st.close();
+				} catch (SQLException e) {
+					logger.error(e);
+					e.printStackTrace();
+				}
+			}
+		return pageNumber;
+	}
+	public static int getPageNumber() throws GatewayException {
+		PreparedStatement st = null;
+		int lastPageNumber = 0;
+		try {
+			st = conn.prepareStatement("SELECT COUNT(*) FROM `Books`");
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+				lastPageNumber = rs.getInt(1);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			throw new GatewayException(e);
+		}finally {
+			try {
+				st.close();
+			} catch (SQLException e) {
+				logger.error(e);
+				e.printStackTrace();
+			}
+		}
+		return lastPageNumber;
+	}
+	
+	public static int getPageNumberSearch(String search) throws GatewayException {
+		PreparedStatement st = null;
+		int lastPageNumber = 0;
+		try {
+			st = conn.prepareStatement("SELECT COUNT(*) FROM `Books` where title like '%" + search + "%'");
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+				lastPageNumber = rs.getInt(1);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			throw new GatewayException(e);
+		}finally {
+			try {
+				st.close();
+			} catch (SQLException e) {
+				logger.error(e);
+				e.printStackTrace();
+			}
+		}
+		return lastPageNumber;
+	}
 	// handles connection with database as an active connection
 	public Connection getConnection() {
 		return conn;

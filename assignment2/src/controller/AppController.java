@@ -112,7 +112,16 @@ public class AppController implements Initializable, MyController {
 		switch (viewType) {
 
 		case VIEW1:
-			List<BookModel> list = BookGateway.getBooks();
+			List<BookModel> list = null;
+			if(data == null) {
+			try {
+				list = BookGateway.getBooks(1,50);
+			} catch (GatewayException e2) {
+				e2.printStackTrace();
+				}
+			} else {
+				list = (List<BookModel>) data;
+			}
 			viewString = "/View/BookListView.fxml";
 			controller = new BookListController(list);
 			break;
@@ -248,7 +257,14 @@ public class AppController implements Initializable, MyController {
 
 		} else if (event.getSource() == mList) {
 			
-			switchView(ViewType.VIEW1, null);
+			if(AppController.checkPermissions(AppController.clearance, "add")) {
+				switchView(ViewType.VIEW1, null);
+				} else {
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Invalid permissions.");
+					alert.setContentText("Access denied.");
+					alert.showAndWait();
+				}
 			return;
 
 		} else if (event.getSource() == mAdd) {
@@ -274,7 +290,14 @@ public class AppController implements Initializable, MyController {
 			return;
 			
 		} else if (event.getSource() == mlistA) {
-			switchView(ViewType.VIEW8, null);
+			if(AppController.checkPermissions(AppController.clearance, "add")) {
+				switchView(ViewType.VIEW8, null);
+				} else {
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Invalid permissions.");
+					alert.setContentText("Access denied.");
+					alert.showAndWait();
+				}
 			return;
 		} else if (event.getSource() == mlogout) {
 			clearance = 0;
