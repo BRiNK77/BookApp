@@ -18,7 +18,9 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import controller.BookGateway;
 import controller.AuthorListController;
@@ -29,23 +31,32 @@ import model.BookModel;
 import model.PublisherModel;
 
 // the overall controller for the application, handles the connection to database, and changing of views
-public class AppController implements Initializable {
+public class AppController implements Initializable, MyController {
 
 	private static Logger logger = LogManager.getLogger(AppController.class);
 
 	private static AppController instance = null;
 	private static DetailedController currentCon;
-
+	public static int clearance;
+	
+	
+	
+	private AppController(int num) {
+		AppController.clearance = num;
+		//switchView(ViewType.VIEW10, null);
+	}
 	private AppController() {
-
+		
 	}
 
 	// creates single instance for the application
-	public static AppController getInstance() {
+	public static AppController getInstance(int number) {
 		if (instance == null) {
 			instance = new AppController();
 			currentCon = null;
+			
 		}
+		AppController.setClearance(number);
 		return instance;
 	}
 	// must declare fxml objects with tag
@@ -62,6 +73,8 @@ public class AppController implements Initializable {
 	private MenuItem mAddA;
 	@FXML
 	private MenuItem mlistA;
+	@FXML
+	private MenuItem mlogout;
 
 	// method to handle view switching on single screen
 	public boolean switchView(ViewType viewType, Object data) {
@@ -154,6 +167,18 @@ public class AppController implements Initializable {
 		case VIEW9:
 			viewString = "/View/AuthorView.fxml";
 			controller = new AuthorController((AuthorModel) data);
+			break;
+			
+		case VIEW10:
+			viewString = "/View/LoginView.fxml";
+			controller = new LoginController();
+			break;
+			
+		case VIEW11:
+			viewString = "/View/Welcome.fxml";
+			controller = new blankCon();
+			break;
+			
 		}
 
 		// tries to set the new view with fxml loader
@@ -186,9 +211,13 @@ public class AppController implements Initializable {
 		}
 	}
 
+
+	
 	// handles menu actions
 	@FXML
 	void onMenuClick(ActionEvent event) {
+		// must check clearance for clicking on creating new authors or books
+		
 		if (event.getSource() == mClose) {
 			if (currentCon != null) {
 				if (currentCon.hasChanged()) {
@@ -218,20 +247,57 @@ public class AppController implements Initializable {
 			Platform.exit();
 
 		} else if (event.getSource() == mList) {
+			
 			switchView(ViewType.VIEW1, null);
 			return;
 
 		} else if (event.getSource() == mAdd) {
+			if(AppController.checkPermissions(AppController.clearance, "add")) {
 			switchView(ViewType.VIEW3, null);
+			} else {
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Invalid permissions.");
+				alert.setContentText("Access denied.");
+				alert.showAndWait();
+			}
 			return;
-		} else if (event.getSource() == mAddA) {
-			switchView(ViewType.VIEW7, null);
-		} else if (event.getSource() == mlistA) {
 			
+		} else if (event.getSource() == mAddA) {
+			if(checkPermissions(AppController.clearance, "add")) {
+			switchView(ViewType.VIEW7, null);
+			} else {
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Invalid permissions.");
+				alert.setContentText("Access denied.");
+				alert.showAndWait();
+			}
+			return;
+			
+		} else if (event.getSource() == mlistA) {
 			switchView(ViewType.VIEW8, null);
+			return;
+		} else if (event.getSource() == mlogout) {
+			clearance = 0;
+			switchView(ViewType.VIEW10, null);
 		}
 	}
 
+	public static boolean checkPermissions(int num, String action) {
+		if(num == 1 && action.equals("add") ) {
+			return false;
+		} else if(num == 1 && action.equals("delete") ) {
+			return false;
+		} else if(num == 2 && action.equals("delete")) {
+			return false;
+		} else if(num == 1 && action.equals("edit")) {
+			return false;
+		} else if( num <= 0 || num > 3) {
+			return false;
+		}
+		
+		return true;
+	}
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -244,5 +310,12 @@ public class AppController implements Initializable {
 	public void setBorderPane(BorderPane borderPane) {
 		this.borderPane = borderPane;
 	}
+	public static int getClearance() {
+		return clearance;
+	}
+	public static void setClearance(int clearance) {
+		AppController.clearance = clearance;
+	}
 
+	
 }

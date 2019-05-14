@@ -48,7 +48,7 @@ public class DetailedController implements Initializable, MyController {
 	private LocalDateTime originalTime;
 	private List<PublisherModel> listPubs;
 
-	// sets values for the view apon declaration
+	// sets values for the view upon declaration
 	public DetailedController(BookModel book, List<PublisherModel> pubs) {
 		this.aBook = book;
 		this.bookCopy = book;
@@ -69,13 +69,20 @@ public class DetailedController implements Initializable, MyController {
 	// handles audit button action
 	@FXML
 	void auditButtonPressed(ActionEvent event) {
-		AppController.getInstance().switchView(ViewType.VIEW4, this.aBook);
+		AppController.getInstance(AppController.clearance).switchView(ViewType.VIEW4, this.aBook);
 
 	}
 
 	// handles save button action
 	@FXML
 	void saveButtonPressed(ActionEvent event) {
+		// must check clearance
+		if(!AppController.checkPermissions(AppController.clearance, "save")) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Invalid permissions.");
+			alert.setContentText("Access denied.");
+			alert.showAndWait();
+		}
 		if (event.getSource() == saveB) {
 			logger.info("Save button pressed.");
 
@@ -92,7 +99,7 @@ public class DetailedController implements Initializable, MyController {
 			}
 			if (save()) {
 				logger.info("Changes fully saved.");
-				AppController.getInstance().switchView(ViewType.VIEW1, null);
+				AppController.getInstance(AppController.clearance).switchView(ViewType.VIEW1, null);
 			} else {
 				logger.info("Changes not saved.");
 			}
@@ -141,9 +148,16 @@ public class DetailedController implements Initializable, MyController {
 
 	@FXML 
 	void addAuthor() {
+		// must check clearance
+		if(!AppController.checkPermissions(AppController.clearance, "add")) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Invalid permissions.");
+			alert.setContentText("Access denied.");
+			alert.showAndWait();
+		}
 		AuthorBookModel newAuthBook = new AuthorBookModel();
 		if(aBook.getID() != 0) {
-			AppController.getInstance().switchView(ViewType.VIEW6, newAuthBook);
+			AppController.getInstance(AppController.clearance).switchView(ViewType.VIEW6, newAuthBook);
 			//AppController.getInstance().changeView(AppController.AUTHOR_BOOK_NEW, new AuthorBook(new Author(), book,0,true,conn));
 		}else {
 			AlertHelper.showWarningMessage("Error", "Unsaved Book", "Please save the book before adding authors");
@@ -152,14 +166,28 @@ public class DetailedController implements Initializable, MyController {
 	
 	@FXML 
 	void editAuthor() {
+		// must check clearance
+		if(!AppController.checkPermissions(AppController.clearance, "edit")) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Invalid permissions.");
+			alert.setContentText("Access denied.");
+			alert.showAndWait();
+		}
 		if (listviewAuthors.getSelectionModel().getSelectedItem() != null) {
 			AuthorBookModel selected = listviewAuthors.getSelectionModel().getSelectedItem();
-			AppController.getInstance().switchView(ViewType.VIEW5, selected);
+			AppController.getInstance(AppController.clearance).switchView(ViewType.VIEW5, selected);
 		}
 	}
 	
 	@FXML 
 	void deleteAuthor() {
+		// must check clearance
+		if(!AppController.checkPermissions(AppController.clearance, "delete")) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Invalid permissions.");
+			alert.setContentText("Access denied.");
+			alert.showAndWait();
+		}
 		try {
 			if (listviewAuthors.getSelectionModel().getSelectedItem() != null) {
 			AuthorBookGateway.deleteAuthorBook(listviewAuthors.getSelectionModel().getSelectedItem());

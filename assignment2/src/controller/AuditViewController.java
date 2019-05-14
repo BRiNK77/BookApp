@@ -41,7 +41,7 @@ public class AuditViewController implements Initializable, MyController {
 	void backButtonPressed(ActionEvent event) {
 		if (event.getSource() == backB) {
 			logger.info("Back button pressed.");
-			AppController.getInstance().switchView(ViewType.VIEW2, this.theBook); // needs more
+			AppController.getInstance(AppController.clearance).switchView(ViewType.VIEW2, this.theBook); // needs more
 
 		}
 	}

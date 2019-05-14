@@ -53,6 +53,8 @@ public class AuthorBookController implements Initializable, MyController {
 	
 	@FXML
 	void save() {
+		// must check clearance
+		
 		if (!authorBook.isValidAuthor(authorBook.getAuthor())) {
 			logger.error("Invalid Author " + authorBook.getAuthor().getFirst() + " "
 					+ authorBook.getAuthor().getLast());
@@ -82,13 +84,13 @@ public class AuthorBookController implements Initializable, MyController {
 	void back() {
 		if(this.authorBook.getNewRecord() == false) {
 			try {
-				AppController.getInstance().switchView(ViewType.VIEW2, BookGateway.getBookById(this.authorBook.getBook().getID()));
+				AppController.getInstance(AppController.clearance).switchView(ViewType.VIEW2, BookGateway.getBookById(this.authorBook.getBook().getID()));
 			} catch (GatewayException e) {
 				e.printStackTrace();
 			
 			}
 		} else {
-			AppController.getInstance().switchView(ViewType.VIEW1, null);
+			AppController.getInstance(AppController.clearance).switchView(ViewType.VIEW1, null);
 		}
 	}
 

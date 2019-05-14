@@ -36,6 +36,8 @@ public class AuthorListController implements Initializable, MyController {
 	// handles delete button action
 		@FXML
 		void deleteButtonPressed(ActionEvent event) {
+			// must check clearance
+			
 			if (event.getSource() == deleteB) {
 				logger.info("Delete button pressed.");
 				AuthorModel selected = listviewAuthors.getSelectionModel().getSelectedItem();
@@ -45,7 +47,7 @@ public class AuthorListController implements Initializable, MyController {
 				} catch (GatewayException e) {
 					e.printStackTrace();
 				}
-				AppController.getInstance().switchView(ViewType.VIEW8, null);
+				AppController.getInstance(AppController.clearance).switchView(ViewType.VIEW8, null);
 
 			}
 		}
@@ -63,7 +65,7 @@ public class AuthorListController implements Initializable, MyController {
 
 					AuthorModel selected = listviewAuthors.getSelectionModel().getSelectedItem();
 					logger.info("Author pressed. " + selected);
-					AppController.getInstance().switchView(ViewType.VIEW9, selected);
+					AppController.getInstance(AppController.clearance).switchView(ViewType.VIEW9, selected);
 
 				}
 

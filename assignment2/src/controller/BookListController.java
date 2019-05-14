@@ -10,8 +10,10 @@ import org.apache.logging.log4j.Logger;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import model.BookModel;
 import javafx.event.ActionEvent;
@@ -36,6 +38,13 @@ public class BookListController implements Initializable, MyController {
 	// handles delete button action
 	@FXML
 	void deleteButtonPressed(ActionEvent event) {
+		// must check clearance
+		if(!AppController.checkPermissions(AppController.clearance, "delete")){
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Invalid permissions.");
+			alert.setContentText("Access denied.");
+			alert.showAndWait();
+		}
 		if (event.getSource() == deleteB) {
 			logger.info("Delete button pressed.");
 			BookModel selected = listviewBooks.getSelectionModel().getSelectedItem();
@@ -45,7 +54,7 @@ public class BookListController implements Initializable, MyController {
 			} catch (GatewayException e) {
 				e.printStackTrace();
 			}
-			AppController.getInstance().switchView(ViewType.VIEW1, null);
+			AppController.getInstance(AppController.clearance).switchView(ViewType.VIEW1, null);
 
 		}
 	}
@@ -66,7 +75,7 @@ public class BookListController implements Initializable, MyController {
 
 					BookModel selected = listviewBooks.getSelectionModel().getSelectedItem();
 					logger.info("Book title pressed. " + selected);
-					AppController.getInstance().switchView(ViewType.VIEW2, selected);
+					AppController.getInstance(AppController.clearance).switchView(ViewType.VIEW2, selected);
 
 				}
 

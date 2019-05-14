@@ -46,17 +46,25 @@ public class AuthorController implements Initializable, MyController {
 	}
 	@FXML
 	void back() {
-		AppController.getInstance().switchView(ViewType.VIEW8, null);	
+		AppController.getInstance(AppController.clearance).switchView(ViewType.VIEW8, null);	
 		
 	}
 	@FXML
 	void saveButtonPressed(ActionEvent event) {
+		// must check clearance
+		if(!AppController.checkPermissions(AppController.clearance, "edit")) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Invalid permissions.");
+			alert.setContentText("Access denied.");
+			alert.showAndWait();
+		}
+		
 		if(event.getSource() == saveB) {
 			logger.info("Save button pressed.");
 			
 			if(save()) {
 				logger.info("Changes fully saved.");
-				AppController.getInstance().switchView(ViewType.VIEW8, null);			
+				AppController.getInstance(AppController.clearance).switchView(ViewType.VIEW8, null);			
 			} else {
 				logger.info("Changes not saved.");
 			}
