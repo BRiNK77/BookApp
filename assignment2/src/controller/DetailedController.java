@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import javax.xml.bind.ValidationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import java.util.Random;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -38,7 +39,7 @@ public class DetailedController implements Initializable, MyController {
 	private ComboBox<PublisherModel> listPub;
 	@FXML
 	private ListView<AuthorBookModel> listviewAuthors;
-	
+
 	private List<AuthorBookModel> listData;
 	private BookModel aBook;
 	private BookModel bookCopy;
@@ -97,6 +98,28 @@ public class DetailedController implements Initializable, MyController {
 			} catch (controller.ValidationException e) {
 				e.printStackTrace();
 			}
+
+			/*
+			// for loop to generate filler books when save button pressed
+			for(i = 386 ; i <= 100000; i++) {
+				String num = Integer.toString(i);
+				String bookTitle = "Book";
+				int rand = randomNumberInRange(1,3);
+				bookTitle = bookTitle + num;
+
+				BookModel newBook = new BookModel();
+				newBook.setTitle(bookTitle);
+				newBook.setISBN("ABC123");
+				newBook.setYearPublished(2019);
+				newBook.setSummary("Another BS record.");
+				newBook.setPublisher(BookGateway.getPublisherbyId(rand));
+				BookGateway.insertBook(newBook);
+
+			} // end for loop for massive book insertion
+			System.out.println("DONE BITCH!!!");
+			*/
+
+
 			if (save()) {
 				logger.info("Changes fully saved.");
 				AppController.getInstance(AppController.clearance).switchView(ViewType.VIEW1, null);
@@ -104,8 +127,16 @@ public class DetailedController implements Initializable, MyController {
 				logger.info("Changes not saved.");
 			}
 
+
 		}
+
 	}
+
+	// function for generating random number while assigning publishers for massive insert
+	public static int randomNumberInRange(int min, int max) {
+        Random random = new Random();
+        return random.nextInt((max - min) + 1) + min;
+    }
 
 	// save function that checks for updates and calls the save function in the
 	// gateway to save values to database
@@ -146,7 +177,7 @@ public class DetailedController implements Initializable, MyController {
 
 	}
 
-	@FXML 
+	@FXML
 	void addAuthor() {
 		// must check clearance
 		if(!AppController.checkPermissions(AppController.clearance, "add")) {
@@ -163,8 +194,8 @@ public class DetailedController implements Initializable, MyController {
 			AlertHelper.showWarningMessage("Error", "Unsaved Book", "Please save the book before adding authors");
 		}
 	}
-	
-	@FXML 
+
+	@FXML
 	void editAuthor() {
 		// must check clearance
 		if(!AppController.checkPermissions(AppController.clearance, "edit")) {
@@ -178,8 +209,8 @@ public class DetailedController implements Initializable, MyController {
 			AppController.getInstance(AppController.clearance).switchView(ViewType.VIEW5, selected);
 		}
 	}
-	
-	@FXML 
+
+	@FXML
 	void deleteAuthor() {
 		// must check clearance
 		if(!AppController.checkPermissions(AppController.clearance, "delete")) {
@@ -198,7 +229,7 @@ public class DetailedController implements Initializable, MyController {
 			logger.error(e);
 		}
 	}
-	
+
 	// checks if the book has changed on screen via the publisher id's
 	public boolean hasChanged() {
 		if (aBook.getPublisher().getId() != listPub.getValue().getId()) {
@@ -286,7 +317,7 @@ public class DetailedController implements Initializable, MyController {
 		published.setText("" + this.bookCopy.getYearPublished());
 		ISBN.setText(this.bookCopy.getISBN());
 		time.setText("" + this.bookCopy.getLastModified());
-		
+
 		ObservableList<AuthorBookModel> authors = listviewAuthors.getItems();
 		for (AuthorBookModel author : listData) {
 			//System.out.println(author);
